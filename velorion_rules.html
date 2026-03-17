@@ -1,0 +1,481 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Velorion — Правила</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg:       #060810;
+  --bg1:      #090c18;
+  --bg2:      #0d1020;
+  --surface:  #111628;
+  --surface2: #161c32;
+  --border:   rgba(255,255,255,.06);
+  --border2:  rgba(255,255,255,.12);
+  --a1: #00d4ff;
+  --a2: #7c3aed;
+  --a3: #f43f5e;
+  --a4: #10b981;
+  --a5: #f59e0b;
+  --txt:   #e2e8f7;
+  --muted: #5a6585;
+  --muted2:#8896b3;
+  --r: 14px;
+  --r-sm: 9px;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:'Exo 2',sans-serif;background:var(--bg);color:var(--txt);min-height:100vh;overflow-x:hidden}
+#cvs{position:fixed;inset:0;pointer-events:none;z-index:0;opacity:.45}
+body::after{content:'';position:fixed;inset:0;background-image:linear-gradient(rgba(0,212,255,.022) 1px,transparent 1px),linear-gradient(90deg,rgba(0,212,255,.022) 1px,transparent 1px);background-size:60px 60px;pointer-events:none;z-index:0}
+.wrap{position:relative;z-index:1}
+
+/* PROGRESS */
+.prog{position:fixed;top:0;left:0;z-index:999;height:2px;background:linear-gradient(90deg,var(--a1),var(--a2));width:0%;transition:width .1s linear;box-shadow:0 0 8px var(--a1)}
+
+/* HERO */
+.hero{text-align:center;padding:70px 20px 50px;position:relative}
+.hero-glow{position:absolute;top:-60px;left:50%;transform:translateX(-50%);width:800px;height:500px;background:radial-gradient(ellipse,rgba(0,212,255,.09) 0%,rgba(124,58,237,.07) 40%,transparent 70%);pointer-events:none}
+.hero-pill{display:inline-flex;align-items:center;gap:8px;background:rgba(0,212,255,.07);border:1px solid rgba(0,212,255,.2);border-radius:999px;padding:5px 16px;font-size:.72rem;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--a1);margin-bottom:22px}
+.dot{width:6px;height:6px;border-radius:50%;background:var(--a1);box-shadow:0 0 8px var(--a1);animation:pulse 2s ease infinite}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.4;transform:scale(.7)}}
+.hero h1{font-size:clamp(2.8rem,8vw,5.5rem);font-weight:900;line-height:.95;letter-spacing:-2px;margin-bottom:6px}
+.l1{display:block;background:linear-gradient(135deg,#fff 0%,rgba(255,255,255,.6) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.l2{display:block;background:linear-gradient(135deg,var(--a1) 0%,var(--a2) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;filter:drop-shadow(0 0 30px rgba(0,212,255,.4))}
+.hero-sub{color:var(--muted2);font-size:.95rem;margin-top:18px;letter-spacing:.3px}
+.hero-meta{display:flex;align-items:center;justify-content:center;gap:20px;margin-top:24px;flex-wrap:wrap}
+.hchip{display:flex;align-items:center;gap:8px;background:var(--surface);border:1px solid var(--border2);border-radius:999px;padding:7px 18px;font-size:.82rem}
+.hchip .v{color:var(--a5);font-weight:700}
+.hchip .l{color:var(--muted2)}
+
+/* STATS */
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:12px;max-width:860px;margin:0 auto 36px;padding:0 16px}
+.sc{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:16px 18px;text-align:center;transition:border-color .25s,transform .25s}
+.sc:hover{border-color:var(--border2);transform:translateY(-2px)}
+.sc .n{font-family:'JetBrains Mono',monospace;font-size:1.7rem;font-weight:600;line-height:1}
+.sc .lb{font-size:.72rem;color:var(--muted);margin-top:4px;text-transform:uppercase;letter-spacing:1px}
+.sc.c1 .n{color:var(--a1)} .sc.c2 .n{color:#a78bfa} .sc.c3 .n{color:var(--a3)} .sc.c4 .n{color:var(--a4)} .sc.c5 .n{color:var(--a5)}
+
+/* NAV */
+.nav{position:sticky;top:0;z-index:200;background:rgba(6,8,16,.82);backdrop-filter:blur(20px) saturate(1.5);border-bottom:1px solid var(--border);padding:10px 16px}
+.nav-in{max-width:900px;margin:0 auto;display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.sbox{position:relative;flex:1;min-width:200px}
+.sbox input{width:100%;background:var(--surface2);border:1px solid var(--border);color:var(--txt);border-radius:999px;padding:9px 40px 9px 42px;font-family:'Exo 2',sans-serif;font-size:.88rem;outline:none;transition:border .2s,box-shadow .2s}
+.sbox input:focus{border-color:rgba(0,212,255,.4);box-shadow:0 0 0 3px rgba(0,212,255,.08)}
+.sbox input::placeholder{color:var(--muted)}
+.sico{position:absolute;left:14px;top:50%;transform:translateY(-50%);color:var(--muted);font-size:.95rem;pointer-events:none}
+.sclear{position:absolute;right:12px;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;color:var(--muted);font-size:.8rem;display:none;padding:2px 4px;font-family:'Exo 2',sans-serif}
+.sclear.show{display:block}
+.tabs{display:flex;gap:6px;flex-wrap:wrap}
+.tab{background:none;border:1px solid var(--border);color:var(--muted);border-radius:999px;padding:6px 14px;font-size:.78rem;font-weight:600;cursor:pointer;transition:all .2s;font-family:'Exo 2',sans-serif;white-space:nowrap;display:flex;align-items:center;gap:5px}
+.tab:hover{border-color:var(--border2);color:var(--txt)}
+.tab.active{background:var(--a1);border-color:var(--a1);color:var(--bg)}
+.tab .cnt{background:rgba(255,255,255,.2);border-radius:999px;padding:1px 6px;font-size:.68rem;font-weight:700}
+.tab.active .cnt{background:rgba(0,0,0,.2)}
+
+/* TOOLBAR */
+.tbar{max-width:900px;margin:0 auto 20px;padding:0 16px;display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap}
+.tbar-l{display:flex;gap:8px;flex-wrap:wrap}
+.tbtn{background:var(--surface);border:1px solid var(--border);color:var(--muted2);border-radius:var(--r-sm);padding:7px 14px;font-size:.8rem;font-weight:600;cursor:pointer;transition:all .2s;font-family:'Exo 2',sans-serif;display:flex;align-items:center;gap:6px}
+.tbtn:hover{border-color:var(--border2);color:var(--txt);background:var(--surface2)}
+.rcnt{font-size:.78rem;color:var(--muted);font-family:'JetBrains Mono',monospace}
+
+/* MAIN */
+main{max-width:900px;margin:0 auto;padding:0 16px 100px;position:relative;z-index:1}
+
+/* SECTION */
+.sec{margin-bottom:44px;animation:slideUp .5s ease both}
+@keyframes slideUp{from{opacity:0;transform:translateY(28px)}to{opacity:1;transform:translateY(0)}}
+.sh{display:flex;align-items:center;gap:14px;padding:0 4px 16px;margin-bottom:16px;border-bottom:1px solid var(--border);position:relative}
+.sh::after{content:'';position:absolute;bottom:-1px;left:0;height:2px;width:80px;border-radius:999px}
+.s1 .sh::after{background:var(--a1)} .s2 .sh::after{background:#a78bfa} .s3 .sh::after{background:var(--a3)} .s4 .sh::after{background:var(--a4)} .s5 .sh::after{background:var(--a5)} .s6 .sh::after{background:linear-gradient(90deg,var(--a1),var(--a2))}
+.sbadge{font-family:'JetBrains Mono',monospace;font-size:.65rem;font-weight:600;padding:4px 10px;border-radius:6px;letter-spacing:1px}
+.s1 .sbadge{background:rgba(0,212,255,.1);color:var(--a1)} .s2 .sbadge{background:rgba(124,58,237,.15);color:#a78bfa} .s3 .sbadge{background:rgba(244,63,94,.1);color:var(--a3)} .s4 .sbadge{background:rgba(16,185,129,.1);color:var(--a4)} .s5 .sbadge{background:rgba(245,158,11,.1);color:var(--a5)} .s6 .sbadge{background:rgba(255,255,255,.06);color:var(--muted2)}
+.semi{font-size:1.3rem}
+.sname{font-size:1rem;font-weight:800;letter-spacing:-.3px}
+.s1 .sname{color:var(--a1)} .s2 .sname{color:#a78bfa} .s3 .sname{color:var(--a3)} .s4 .sname{color:var(--a4)} .s5 .sname{color:var(--a5)} .s6 .sname{color:var(--muted2)}
+.scnt{margin-left:auto;font-family:'JetBrains Mono',monospace;font-size:.7rem;color:var(--muted)}
+
+/* RULE CARD */
+.rule{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);margin-bottom:10px;overflow:hidden;transition:border-color .2s,transform .15s,box-shadow .2s;position:relative}
+.rule::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;opacity:0;transition:opacity .2s;border-radius:3px 0 0 3px}
+.s1 .rule::before{background:var(--a1)} .s2 .rule::before{background:#a78bfa} .s3 .rule::before{background:var(--a3)} .s4 .rule::before{background:var(--a4)} .s5 .rule::before{background:var(--a5)}
+.rule:hover{border-color:var(--border2);transform:translateX(3px)} .rule:hover::before{opacity:1}
+.rule.open{border-color:var(--border2)} .rule.open::before{opacity:1}
+.rh{display:flex;align-items:center;gap:12px;padding:14px 18px;cursor:pointer;user-select:none}
+.rnum{font-family:'JetBrains Mono',monospace;font-size:.68rem;font-weight:600;padding:3px 9px;border-radius:6px;flex-shrink:0;min-width:40px;text-align:center}
+.s1 .rnum{background:rgba(0,212,255,.08);color:var(--a1)} .s2 .rnum{background:rgba(124,58,237,.12);color:#a78bfa} .s3 .rnum{background:rgba(244,63,94,.08);color:var(--a3)} .s4 .rnum{background:rgba(16,185,129,.08);color:var(--a4)} .s5 .rnum{background:rgba(245,158,11,.08);color:var(--a5)}
+.rtxt{flex:1;font-size:.9rem;font-weight:500;line-height:1.5;color:var(--txt)}
+.rsev{flex-shrink:0;width:8px;height:8px;border-radius:50%}
+.sl{background:var(--a4);box-shadow:0 0 6px var(--a4)} .sm{background:var(--a5);box-shadow:0 0 6px var(--a5)} .sh2{background:var(--a3);box-shadow:0 0 6px var(--a3)} .sp{background:#ff0040;box-shadow:0 0 8px #ff0040}
+.rchev{flex-shrink:0;color:var(--muted);font-size:.75rem;transition:transform .25s}
+.rule.open .rchev{transform:rotate(180deg)}
+.rb{display:none;border-top:1px solid var(--border);padding:18px 20px;background:var(--bg2);animation:bodyIn .2s ease both}
+@keyframes bodyIn{from{opacity:0;transform:translateY(-6px)}to{opacity:1;transform:translateY(0)}}
+.rule.open .rb{display:block}
+.plabel{font-size:.65rem;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);margin-bottom:12px;display:flex;align-items:center;gap:8px}
+.plabel::after{content:'';flex:1;height:1px;background:var(--border)}
+.prows{display:flex;flex-direction:column;gap:8px}
+.pr{display:flex;align-items:flex-start;gap:12px;font-size:.86rem;line-height:1.45}
+.pt{font-family:'JetBrains Mono',monospace;font-size:.65rem;font-weight:700;padding:3px 10px;border-radius:999px;flex-shrink:0;margin-top:1px;letter-spacing:.5px}
+.t1{background:rgba(16,185,129,.12);color:var(--a4);border:1px solid rgba(16,185,129,.2)}
+.t2{background:rgba(245,158,11,.12);color:var(--a5);border:1px solid rgba(245,158,11,.2)}
+.t3{background:rgba(244,63,94,.12);color:var(--a3);border:1px solid rgba(244,63,94,.2)}
+.t4{background:rgba(255,0,64,.15);color:#ff4069;border:1px solid rgba(255,0,64,.25)}
+.tP{background:rgba(255,0,64,.2);color:#ff0040;border:1px solid rgba(255,0,64,.3)}
+.tS{background:rgba(0,212,255,.08);color:var(--a1);border:1px solid rgba(0,212,255,.2)}
+.note{margin-top:13px;background:rgba(0,212,255,.05);border-left:2px solid rgba(0,212,255,.3);border-radius:0 8px 8px 0;padding:10px 14px;font-size:.81rem;color:var(--muted2);line-height:1.55}
+
+/* GLOSSARY */
+.gg{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:10px}
+.gi{background:var(--surface);border:1px solid var(--border);border-radius:var(--r-sm);padding:14px 16px;transition:border-color .2s}
+.gi:hover{border-color:var(--border2)}
+.gt{font-family:'JetBrains Mono',monospace;font-size:.78rem;font-weight:600;color:var(--a5);margin-bottom:7px}
+.gd{font-size:.8rem;color:var(--muted2);line-height:1.55}
+
+/* NOTICE */
+.notice{background:linear-gradient(135deg,rgba(0,212,255,.06),rgba(124,58,237,.06));border:1px solid rgba(0,212,255,.15);border-radius:var(--r);padding:18px 22px;margin-bottom:28px;font-size:.88rem;line-height:1.65;color:var(--muted2)}
+.notice strong{color:var(--a1)}
+
+/* EMPTY */
+.nores{text-align:center;padding:60px 20px;display:none}
+.nores .ni{font-size:3.5rem;margin-bottom:14px;display:block}
+.nores p{color:var(--muted);font-size:.95rem}
+.nores span{color:var(--a1);font-weight:600}
+
+/* BTT */
+.btt{position:fixed;right:20px;bottom:24px;z-index:300;width:44px;height:44px;background:var(--a1);color:var(--bg);border:none;border-radius:12px;font-size:1.1rem;cursor:pointer;box-shadow:0 4px 24px rgba(0,212,255,.35);transition:all .25s;opacity:0;pointer-events:none;display:flex;align-items:center;justify-content:center;font-weight:700;font-family:'Exo 2',sans-serif}
+.btt.show{opacity:1;pointer-events:auto}
+.btt:hover{transform:translateY(-3px);box-shadow:0 8px 32px rgba(0,212,255,.5)}
+
+/* TOAST */
+.toast{position:fixed;bottom:80px;left:50%;transform:translateX(-50%) translateY(20px);background:var(--surface2);border:1px solid var(--border2);border-radius:999px;padding:10px 22px;font-size:.84rem;color:var(--txt);box-shadow:0 8px 32px rgba(0,0,0,.5);opacity:0;pointer-events:none;z-index:400;transition:all .3s;white-space:nowrap}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+
+mark.hl{background:rgba(0,212,255,.2);color:var(--a1);border-radius:3px;padding:0 2px;font-weight:600}
+
+footer{text-align:center;padding:28px 20px;border-top:1px solid var(--border);color:var(--muted);font-size:.78rem;position:relative;z-index:1;line-height:1.7}
+footer strong{color:var(--a1);font-weight:700}
+
+@media(max-width:640px){.hero h1{letter-spacing:-1px}.tabs{gap:4px}.tab{padding:5px 10px;font-size:.72rem}.rtxt{font-size:.84rem}.stats{grid-template-columns:repeat(3,1fr);gap:8px}}
+@media(max-width:400px){.stats{grid-template-columns:repeat(2,1fr)}.hchip{display:none}}
+@media print{#cvs,body::after,.nav,.btt,.prog,.toast{display:none!important}.rb{display:block!important}.hero-glow{display:none}body{background:#fff;color:#000}}
+</style>
+</head>
+<body>
+
+<div class="prog" id="prog"></div>
+<canvas id="cvs"></canvas>
+<div class="toast" id="toast"></div>
+
+<div class="wrap">
+
+<header class="hero">
+  <div class="hero-glow"></div>
+  <div class="hero-pill"><span class="dot"></span>Официальный документ</div>
+  <h1><span class="l1">ПРАВИЛА</span><span class="l2">VELORION</span></h1>
+  <p class="hero-sub">Свод правил, регулирующих поведение участников сервера</p>
+  <div class="hero-meta">
+    <div class="hchip"><span>👑</span><span class="l">Куратор:</span><span class="v">StefAeroXP</span></div>
+    <div class="hchip"><span>📅</span><span class="l">Версия:</span><span class="v" id="vDate">—</span></div>
+    <div class="hchip"><span>📋</span><span class="l">Правил:</span><span class="v" id="vTotal">—</span></div>
+  </div>
+</header>
+
+<div class="stats">
+  <div class="sc c1"><div class="n" id="st1">—</div><div class="lb">Чат</div></div>
+  <div class="sc c2"><div class="n" id="st2">—</div><div class="lb">Моды</div></div>
+  <div class="sc c3"><div class="n" id="st3">—</div><div class="lb">Аккаунт</div></div>
+  <div class="sc c4"><div class="n" id="st4">—</div><div class="lb">Игра</div></div>
+  <div class="sc c5"><div class="n" id="st5">—</div><div class="lb">Наказания</div></div>
+</div>
+
+<div class="nav">
+  <div class="nav-in">
+    <div class="sbox">
+      <span class="sico">⌕</span>
+      <input type="text" id="srch" placeholder="Поиск по правилам... (Ctrl+F)" autocomplete="off" spellcheck="false"/>
+      <button class="sclear" id="sclear" onclick="clrSrch()">✕</button>
+    </div>
+    <div class="tabs" id="tabs">
+      <button class="tab active" data-s="all">Все <span class="cnt" id="cntAll">—</span></button>
+      <button class="tab" data-s="s1">💬 Чат</button>
+      <button class="tab" data-s="s2">🛠 Моды</button>
+      <button class="tab" data-s="s3">👤 Аккаунт</button>
+      <button class="tab" data-s="s4">🎮 Игра</button>
+      <button class="tab" data-s="s5">⚖️ Наказания</button>
+      <button class="tab" data-s="s6">📖 Глоссарий</button>
+    </div>
+  </div>
+</div>
+
+<main id="mc">
+  <div class="tbar">
+    <div class="tbar-l">
+      <button class="tbtn" onclick="expAll()">▼ Раскрыть все</button>
+      <button class="tbtn" onclick="colAll()">▲ Свернуть все</button>
+      <button class="tbtn" onclick="window.print()">🖨 Печать</button>
+    </div>
+    <div class="rcnt" id="rcnt"></div>
+  </div>
+
+  <div class="notice">⚡ Используя сервер <strong>Velorion</strong>, вы автоматически принимаете настоящие правила в полном объёме. Незнание правил не снимает ответственности. Администрация вправе изменять документ без предварительного уведомления.</div>
+
+  <!-- ═══ С1 ЧАТ ═══ -->
+  <div class="sec s1" id="s1">
+    <div class="sh"><span class="semi">💬</span><span class="sbadge">РАЗДЕЛ 01</span><span class="sname">Поведение в чате</span><span class="scnt" id="c1"></span></div>
+
+    <div class="rule" data-s="s1" data-sev="low"><div class="rh" onclick="tog(this)"><span class="rnum">1.1</span><span class="rtxt">Угрозы в адрес других участников в любой форме</span><span class="rsev sl"></span><span class="rchev">▼</span></div><div class="rb"><div class="plabel">⚔ Наказание</div><div class="prows"><div class="pr"><span class="pt t1">1 раз</span>Блокировка чата на 30 минут</div><div class="pr"><span class="pt t2">2 раз</span>Блокировка чата на 3 часа (180 минут)</div></div></div></div>
+
+    <div class="rule" data-s="s1" data-sev="low"><div class="rh" onclick="tog(this)"><span class="rnum">1.2</span><span class="rtxt">Оскорбления игроков — прямые или в завуалированной форме</span><span class="rsev sl"></span><span class="rchev">▼</span></div><div class="rb"><div class="plabel">⚔ Наказание</div><div class="prows"><div class="pr"><span class="pt t1">1 раз</span>Предупреждение</div><div class="pr"><span class="pt t2">2 раз</span>Блокировка чата на 1 час (60 минут)</div></div></div></div>
+
+    <div class="rule" data-s="s1" data-sev="low"><div class="rh" onclick="tog(this)"><span class="rnum">1.3</span><span class="rtxt">Спам, флуд и злоупотребление заглавными буквами</span><span class="rsev sl"></span><span class="rchev">▼</span></div><div class="rb"><div class="plabel">⚔ Наказание</div><div class="prows"><div class="pr"><span class="pt t1">1 раз</span>Предупреждение</div><div class="pr"><span class="pt t2">2 раз</span>Блокировка чата на 1 час (60 минут)</div><div class="pr"><span class="pt t3">3 раз</span>Блокировка чата на 2 часа (120 минут)</div></div><div class="note">💡 Капс допустим для выражения эмоций — не более 3 сообщений подряд.</div></div></div>
+
+    <div class="rule" data-s="s1" data-sev="mid"><div class="rh" onclick="tog(this)"><span class="rnum">1.4</span><span class="rtxt">Провокации и намеренное разжигание конфликтов между игроками</span><span class="rsev sm"></span><span class="rchev">▼</span></div><div class="rb"><div class="plabel">⚔ Наказание</div><div class="prows"><div class="pr"><span class="pt t1">1 раз</span>Предупреждение</div><div class="pr"><span class="pt t2">2 раз</span>Блокировка чата на 1 час (60 минут)</div><div class="pr"><span class="pt t3">3 раз</span>Блокировка чата на 3 часа (180 минут)</div><div class="pr"><span class="pt t4">4 раз</span>Блокировка аккаунта на 3 дня (4320 минут)</div></div></div></div>
+
+    <div class="rule" data-s="s1" data-sev="mid"><div class="rh" onclick="tog(this)"><span class="rnum">1.5</span><span class="rtxt">Неуважение к персоналу, попытки спровоцировать администрацию</span><span class="rsev sm"></span><span class="rchev">▼</span></div><div class="rb"><div class="plabel">⚔ Наказание</div><div class="prows"><div class="pr"><span class="pt t2">1 раз</span>Блокировка чата на 3 часа (180 минут)</div><div class="pr"><span class="pt t3">2 раз</span>Блокировка аккаунта на 1 день (1440 минут)</div></div></div></div>
+
+    <div class="rule" data-s="s1" data-sev="low"><div class="rh" onclick="tog(this)"><span class="rnum">1.6</span><span class="rtxt">Оскорбления в адрес родственников других участников</span><span class="rsev sl"></span><span class="rchev">▼</span></div><div class="rb"><div class="plabel">⚔ Наказание</div><div class="prows"><div class="pr"><span class="pt tS">Разово</span>Блокировка чата на 2 часа (120 минут)</div></div><div class="note">💡 Исключение: реплики в рамках согласованного ролевого сценария.</div></div></div>
+
+    <div class="rule" data-s="s1" data-sev="low"><div class="rh" onclick="tog(this)"><span class="rnum">1.7</span><span class="rtxt">Попрошайничество — ресурсы, донат, привилегии и т.п.</span><span class="rsev sl"></span><span class="rchev">▼</span></div><div class="rb"><div class="plabel">⚔ Наказание</div><div class="prows"><div class="pr"><span class="pt t1">1 раз</span>Предупреждение</div><div class="pr"><span class="pt t2">2 раз</span>Блокировка чата на 30 минут</div></div></div></div>
+
+    <div class="rule" data-s="s1" data-sev="high"><div class="rh" onclick="tog(this)"><span class="rnum">1.8</span><span class="rtxt">Пропаганда экстремизма, наркотиков, суицида, расизма, нацизма, терроризма</span><span class="rsev sh2"></span><span class="rchev">▼</span></div><div class="rb"><div class="plabel">⚔ Наказание</div><div class="prows"><div class="pr"><span class="pt tP">Разово</span>Блокировка аккаунта на 3 дня (4320 минут)</div></div></div></div>
+
+    <div class="rule" data-s="s1" data-sev="mid"><div class="rh" onclick="tog(this)"><span class="rnum">1.9</span><span class="rtxt">Дискриминация по полу, возрасту, религии, национальности или ориентации</span><span class="rsev sm"></span><span class="rchev">▼</span></div><div class="rb"><div class="plabel">⚔ Наказание</div><div class="prows"><div class="pr"><span class="pt t1">1 раз</span>Блокировка чата на 30 минут</div><div class="pr"><span class="pt t3">2 раз</span>Блокировка аккаунта на 1 день (1440 минут)</div></div></div></div>
+
+    <div class="rule" data-s="s1" data-sev="mid"><div class="rh" onclick="tog(this)"><span class="rnum">1.10</span><span class="rtxt">Упоминание или реклама сторонних ресурсов и проектов</span><span class="rsev sm"></span><span class="rchev">▼</span></div><div class="rb"><div class="plabel">⚔ Наказание</div><div class="prows"><div class="pr"><span class="pt tS">Упоминание</span>Блокировка чата на 40 минут</div><div class="pr"><span class="pt tP">Реклама</span>Блокировка аккаунта на 1 неделю (10080 минут)</div></div></div></div>
+
+    <div class="rule" data-s="s1" data-sev="low"><div class="rh" onclick="tog(this)"><span class="rnum">1.11</span><span class="rtxt">Распространение заведомо ложной информации о сервере</span><span class="rsev sl"></span><span class="rchev">▼</span></div><div class="rb"><div class="plabel">⚔ Наказание</div><div class="prows"><div class="pr"><span class="pt tS">Разово</span>Блокировка чата на 1 час (60 минут)</div></div></div></div>
+
+    <div class="rule" data-s="s1" data-sev="mid"><div class="rh" onclick="tog(this)"><span class="rnum">1.12</span><span class="rtxt">Подстрекательство к нарушению правил сервера</span><span class="rsev sm"></span><span class="rchev">▼</span></div><div class="rb"><div class="plabel">⚔ Наказание</div><div class="prows"><div class="pr"><span class="pt tS">Разово</span>Блокировка аккаунта на 3 дня (4320 минут)</div></div></div></div>
+
+    <div class="rule" data-s="s1" data-sev="low"><div class="rh" onclick="tog(this)"><span class="rnum">1.13</span><span class="rtxt">Организация массового засорения чата</span><span class="rsev sl"></span><span class="rchev">▼</span></div><div class="rb"><div class="plabel">⚔ Наказание</div><div class="prows"><div class="pr"><span class="pt tS">Разово</span>Блокировка чата организатора на 1 час (60 минут)</div></div><div class="note">💡 Исключение: конкурсы с официального разрешения администрации.</div></div></div>
+
+    <div class="rule" data-s="s1" data-sev="perm"><div class="rh" onclick="tog(this)"><span class="rnum">1.14</span><span class="rtxt">Публикация личных данных игроков или персонала (доксинг)</span><span class="rsev sp"></span><span class="rchev">▼</span></div><div class="rb"><div class="plabel">⚔ Наказание</div><div class="prows"><div class="pr"><span class="pt t3">1 раз</span>Пожизненная блокировка чата</div><div class="pr"><span class="pt tP">2 раз</span>Постоянная блокировка аккаунта</div></div></div></div>
+
+    <div class="rule" data-s="s1" data-sev="high"><div class="rh" onclick="tog(this)"><span class="rnum">1.15</span><span class="rtxt">Публичная дискредитация проекта Velorion</span><span class="rsev sh2"></span><span class="rchev">▼</span></div><div class="rb"><div class="plabel">⚔ Наказание</div><div class="prows"><div class="pr"><span class="pt tP">Разово</span>Блокировка аккаунта на 1 неделю (10080 минут)</div></div></div></div>
+  </div>
+
+  <!-- ═══ С2 МОДЫ ═══ -->
+  <div class="sec s2" id="s2">
+    <div class="sh"><span class="semi">🛠️</span><span class="sbadge">РАЗДЕЛ 02</span><span class="sname">Модификации и ПО</span><span class="scnt" id="c2"></span></div>
+
+    <div class="rule" data-s="s2" data-sev="perm"><div class="rh" onclick="tog(this)"><span class="rnum">2.1</span><span class="rtxt">Использование читов, макросов или любого ПО, дающего игровое преимущество</span><span class="rsev sp"></span><span class="rchev">▼</span></div><div class="rb"><div class="plabel">⚔ Наказание</div><div class="prows"><div class="pr"><span class="pt tP">Навсегда</span>Постоянная блокировка + сброс до базового статуса</div></div><div class="note">💡 Включает совместную игру с нарушителем и положительное упоминание подобного ПО.</div></div></div>
+
+    <div class="rule" data-s="s2" data-sev="high"><div class="rh" onclick="tog(this)"><span class="rnum">2.2</span><span class="rtxt">Признание в использовании читов — даже в «шуточном» контексте</span><span class="rsev sh2"></span><span class="rchev">▼</span></div><div class="rb"><div class="plabel">⚔ Наказание</div><div class="prows"><div class="pr"><span class="pt tP">Разово</span>Блокировка аккаунта на 3 недели (30240 минут)</div></div></div></div>
+
+    <div class="rule" data-s="s2" data-sev="high"><div class="rh" onclick="tog(this)"><span class="rnum">2.3</span><span class="rtxt">Намеренное использование багов и недоработок сервера</span><span class="rsev sh2"></span><span class="rchev">▼</span></div><div class="rb"><div class="plabel">⚔ Наказание</div><div class="prows"><div class="pr"><span class="pt tP">Разово</span>Блокировка аккаунта на 2 недели (20160 минут)</div></div><div class="note">💡 Обнаруженные баги необходимо сообщать в техническую поддержку.</div></div></div>
+
+    <div class="rule" data-s="s2" data-sev="perm"><div class="rh" onclick="tog(this)"><span class="rnum">2.4</span><span class="rtxt">Применение вредоносного ПО, способного навредить серверу</span><span class="rsev sp"></span><span class="rchev">▼</span></div><div class="rb"><div class="plabel">⚔ Наказание</div><div class="prows"><div class="pr"><span class="pt tP">Навсегда</span>Постоянная блокировка всех аккаунтов + сброс до базового статуса</div></div></div></div>
+
+    <div class="rule" data-s="s2" data-sev="high"><div class="rh" onclick="tog(this)"><span class="rnum">2.5</span><span class="rtxt">Уклонение или игнорирование проверки на читы</span><span class="rsev sh2"></span><span class="rchev">▼</span></div><div class="rb"><div class="plabel">⚔ Наказание</div><div class="prows"><div class="pr"><span class="pt tP">Разово</span>Блокировка аккаунта на 3 недели (30240 минут)</div></div></div></div>
+
+    <div class="rule" data-s="s2" data-sev="high"><div class="rh" onclick="tog(this)"><span class="rnum">2.6</span><span class="rtxt">Совместная игра с игроком, нарушающим правило 2.1 (тиммейт-читера)</span><span class="rsev sh2"></span><span class="rchev">▼</span></div><div class="rb"><div class="plabel">⚔ Наказание</div><div class="prows"><div class="pr"><span class="pt t3">1 раз</span>Блокировка аккаунта на 30 дней (43200 минут)</div><div class="pr"><span class="pt t4">2 раз</span>Блокировка аккаунта на 60 дней (86400 минут)</div></div></div></div>
+  </div>
+
+  <!-- ═══ С3 АККАУНТ ═══ -->
+  <div class="sec s3" id="s3">
+    <div class="sh"><span class="semi">👤</span><span class="sbadge">РАЗДЕЛ 03</span><span class="sname">Использование аккаунта</span><span class="scnt" id="c3"></span></div>
+
+    <div class="rule" data-s="s3" data-sev="perm"><div class="rh" onclick="tog(this)"><span class="rnum">3.1</span><span class="rtxt">Передача аккаунта третьим лицам</span><span class="rsev sp"></span><span class="rchev">▼</span></div><div class="rb"><div class="plabel">⚔ Наказание</div><div class="prows"><div class="pr"><span class="pt tP">Навсегда</span>Постоянная блокировка + сброс до базового статуса</div></div></div></div>
+
+    <div class="rule" data-s="s3" data-sev="perm"><div class="rh" onclick="tog(this)"><span class="rnum">3.2</span><span class="rtxt">Взлом чужого аккаунта или обоснованное подозрение во взломе</span><span class="rsev sp"></span><span class="rchev">▼</span></div><div class="rb"><div class="plabel">⚔ Наказание</div><div class="prows"><div class="pr"><span class="pt tS">Жертва</span>Блокировка до обращения законного владельца в поддержку</div><div class="pr"><span class="pt tP">Взломщик</span>Постоянная блокировка всех аккаунтов + снятие всех привилегий</div></div></div></div>
+
+    <div class="rule" data-s="s3" data-sev="high"><div class="rh" onclick="tog(this)"><span class="rnum">3.3</span><span class="rtxt">Продажа игровых ценностей за реальные деньги</span><span class="rsev sh2"></span><span class="rchev">▼</span></div><div class="rb"><div class="plabel">⚔ Наказание</div><div class="prows"><div class="pr"><span class="pt tP">Разово</span>Блокировка аккаунта на 2 недели (20160 минут)</div></div></div></div>
+
+    <div class="rule" data-s="s3" data-sev="perm"><div class="rh" onclick="tog(this)"><span class="rnum">3.4</span><span class="rtxt">Никнейм, схожий с именем высшей администрации до степени смешения</span><span class="rsev sp"></span><span class="rchev">▼</span></div><div class="rb"><div class="plabel">⚔ Наказание</div><div class="prows"><div class="pr"><span class="pt tP">Навсегда</span>Постоянная блокировка аккаунта</div></div></div></div>
+
+    <div class="rule" data-s="s3" data-sev="high"><div class="rh" onclick="tog(this)"><span class="rnum">3.5</span><span class="rtxt">Никнеймы или префиксы с нецензурной лексикой, оскорблениями или рекламой</span><span class="rsev sh2"></span><span class="rchev">▼</span></div><div class="rb"><div class="plabel">⚔ Наказание</div><div class="prows"><div class="pr"><span class="pt t1">1 раз</span>Кик с сервера</div><div class="pr"><span class="pt tP">2 раз</span>Постоянная блокировка аккаунта</div></div></div></div>
+
+    <div class="rule" data-s="s3" data-sev="mid"><div class="rh" onclick="tog(this)"><span class="rnum">3.6</span><span class="rtxt">Создание клана с оскорбительным или нецензурным названием</span><span class="rsev sm"></span><span class="rchev">▼</span></div><div class="rb"><div class="plabel">⚔ Наказание</div><div class="prows"><div class="pr"><span class="pt tP">Разово</span>Блокировка создателя на 1 неделю (10080 минут) + удаление клана</div></div></div></div>
+
+    <div class="rule" data-s="s3" data-sev="mid"><div class="rh" onclick="tog(this)"><span class="rnum">3.7</span><span class="rtxt">Скины с нацистской символикой, порнографическим содержимым или рекламой</span><span class="rsev sm"></span><span class="rchev">▼</span></div><div class="rb"><div class="plabel">⚔ Наказание</div><div class="prows"><div class="pr"><span class="pt tP">Разово</span>Блокировка аккаунта на 7 дней (10080 минут)</div></div></div></div>
+
+    <div class="rule" data-s="s3" data-sev="perm"><div class="rh" onclick="tog(this)"><span class="rnum">3.8</span><span class="rtxt">Попытка взлома аккаунтов персонала или их альтернативных аккаунтов</span><span class="rsev sp"></span><span class="rchev">▼</span></div><div class="rb"><div class="plabel">⚔ Наказание</div><div class="prows"><div class="pr"><span class="pt tP">Навсегда</span>Постоянная блокировка всех аккаунтов + снятие всех привилегий</div></div></div></div>
+  </div>
+
+  <!-- ═══ С4 ИГРА ═══ -->
+  <div class="sec s4" id="s4">
+    <div class="sh"><span class="semi">🎮</span><span class="sbadge">РАЗДЕЛ 04</span><span class="sname">Игровой процесс</span><span class="scnt" id="c4"></span></div>
+
+    <div class="rule" data-s="s4" data-sev="mid"><div class="rh" onclick="tog(this)"><span class="rnum">4.1</span><span class="rtxt">Гриферство: разрушение строений, ловушки, блокировка доступа, обман с целью убийства</span><span class="rsev sm"></span><span class="rchev">▼</span></div><div class="rb"><div class="plabel">⚔ Наказание</div><div class="prows"><div class="pr"><span class="pt t2">1 раз</span>Блокировка аккаунта на 3 дня (4320 минут)</div><div class="pr"><span class="pt t4">2 раз</span>Блокировка аккаунта на 7 дней (10080 минут) + снятие привилегии</div></div><div class="note">💡 PvP в открытом мире разрешён. Постройки без приватной защиты считаются общедоступными.</div></div></div>
+
+    <div class="rule" data-s="s4" data-sev="mid"><div class="rh" onclick="tog(this)"><span class="rnum">4.2</span><span class="rtxt">Злоупотребление донат-возможностями в целях убийства игроков</span><span class="rsev sm"></span><span class="rchev">▼</span></div><div class="rb"><div class="plabel">⚔ Наказание</div><div class="prows"><div class="pr"><span class="pt t2">1 раз</span>Блокировка аккаунта на 3 дня (4320 минут)</div><div class="pr"><span class="pt t4">2 раз</span>Блокировка аккаунта на 7 дней (10080 минут) + снятие привилегии</div></div></div></div>
+
+    <div class="rule" data-s="s4" data-sev="high"><div class="rh" onclick="tog(this)"><span class="rnum">4.3</span><span class="rtxt">Накрутка статистики (убийства, смерти, репутация) через сторонние аккаунты</span><span class="rsev sh2"></span><span class="rchev">▼</span></div><div class="rb"><div class="plabel">⚔ Наказание</div><div class="prows"><div class="pr"><span class="pt tP">Разово</span>Блокировка аккаунта на 2 недели (20160 минут)</div></div></div></div>
+
+    <div class="rule" data-s="s4" data-sev="low"><div class="rh" onclick="tog(this)"><span class="rnum">4.4</span><span class="rtxt">Вмешательство в игровой процесс других игроков на их территории</span><span class="rsev sl"></span><span class="rchev">▼</span></div><div class="rb"><div class="plabel">⚔ Наказание</div><div class="prows"><div class="pr"><span class="pt t1">1 раз</span>Предупреждение</div><div class="pr"><span class="pt t2">2 раз</span>Кик с сервера</div><div class="pr"><span class="pt t3">3 раз</span>Блокировка аккаунта на 1 день (1440 минут)</div></div></div></div>
+
+    <div class="rule" data-s="s4" data-sev="mid"><div class="rh" onclick="tog(this)"><span class="rnum">4.5</span><span class="rtxt">Постройка неприличных, оскорбительных или политически провокационных сооружений</span><span class="rsev sm"></span><span class="rchev">▼</span></div><div class="rb"><div class="plabel">⚔ Наказание</div><div class="prows"><div class="pr"><span class="pt tP">Разово</span>Блокировка аккаунта на 7 дней (10080 минут)</div></div></div></div>
+
+    <div class="rule" data-s="s4" data-sev="mid"><div class="rh" onclick="tog(this)"><span class="rnum">4.6</span><span class="rtxt">Мошенничество при игровых сделках и обменах</span><span class="rsev sm"></span><span class="rchev">▼</span></div><div class="rb"><div class="plabel">⚔ Наказание</div><div class="prows"><div class="pr"><span class="pt tP">Разово</span>Блокировка аккаунта на 7 дней (10080 минут)</div></div></div></div>
+
+    <div class="rule" data-s="s4" data-sev="mid"><div class="rh" onclick="tog(this)"><span class="rnum">4.7</span><span class="rtxt">Выдача себя за члена администрации или персонала</span><span class="rsev sm"></span><span class="rchev">▼</span></div><div class="rb"><div class="plabel">⚔ Наказание</div><div class="prows"><div class="pr"><span class="pt tP">Разово</span>Блокировка аккаунта на 3 дня (4320 минут)</div></div></div></div>
+
+    <div class="rule" data-s="s4" data-sev="perm"><div class="rh" onclick="tog(this)"><span class="rnum">4.8</span><span class="rtxt">Любой вид обмана в адрес администрации</span><span class="rsev sp"></span><span class="rchev">▼</span></div><div class="rb"><div class="plabel">⚔ Наказание</div><div class="prows"><div class="pr"><span class="pt tP">Навсегда</span>Постоянная блокировка аккаунта</div></div></div></div>
+
+    <div class="rule" data-s="s4" data-sev="mid"><div class="rh" onclick="tog(this)"><span class="rnum">4.9</span><span class="rtxt">Реклама собственного канала через постройки, таблички или книги</span><span class="rsev sm"></span><span class="rchev">▼</span></div><div class="rb"><div class="plabel">⚔ Наказание</div><div class="prows"><div class="pr"><span class="pt tP">Разово</span>Блокировка аккаунта на 1 неделю (10080 минут)</div></div></div></div>
+
+    <div class="rule" data-s="s4" data-sev="mid"><div class="rh" onclick="tog(this)"><span class="rnum">4.10</span><span class="rtxt">Сокрытие обнаруженных багов от администрации</span><span class="rsev sm"></span><span class="rchev">▼</span></div><div class="rb"><div class="plabel">⚔ Наказание</div><div class="prows"><div class="pr"><span class="pt tP">Разово</span>Блокировка аккаунта на 1 неделю (10080 минут)</div></div></div></div>
+
+    <div class="rule" data-s="s4" data-sev="perm"><div class="rh" onclick="tog(this)"><span class="rnum">4.11</span><span class="rtxt">Попытка уронить или уничтожить инфраструктуру сервера</span><span class="rsev sp"></span><span class="rchev">▼</span></div><div class="rb"><div class="plabel">⚔ Наказание</div><div class="prows"><div class="pr"><span class="pt tP">Навсегда</span>Постоянная блокировка всех аккаунтов + полный сброс статистики</div></div></div></div>
+
+    <div class="rule" data-s="s4" data-sev="perm"><div class="rh" onclick="tog(this)"><span class="rnum">4.12</span><span class="rtxt">Подставление игрока под чужим именем с целью его блокировки</span><span class="rsev sp"></span><span class="rchev">▼</span></div><div class="rb"><div class="plabel">⚔ Наказание</div><div class="prows"><div class="pr"><span class="pt t1">1 раз</span>Кик с сервера</div><div class="pr"><span class="pt tP">2 раз</span>Постоянная блокировка аккаунта</div></div></div></div>
+
+    <div class="rule" data-s="s4" data-sev="mid"><div class="rh" onclick="tog(this)"><span class="rnum">4.13</span><span class="rtxt">Намеренный выход с сервера во время нарушения для уклонения от наказания</span><span class="rsev sm"></span><span class="rchev">▼</span></div><div class="rb"><div class="plabel">⚔ Наказание</div><div class="prows"><div class="pr"><span class="pt t2">1 раз</span>Блокировка аккаунта на 1 день (1440 минут)</div><div class="pr"><span class="pt t4">2 раз</span>Блокировка аккаунта на 7 дней (10080 минут)</div></div><div class="note">💡 Применяется при отсутствии на сервере более 5 минут после нарушения.</div></div></div>
+
+    <div class="rule" data-s="s4" data-sev="mid"><div class="rh" onclick="tog(this)"><span class="rnum">4.14</span><span class="rtxt">Препятствование работе персонала сервера</span><span class="rsev sm"></span><span class="rchev">▼</span></div><div class="rb"><div class="plabel">⚔ Наказание</div><div class="prows"><div class="pr"><span class="pt tP">Разово</span>Блокировка аккаунта на 3 дня (4320 минут)</div></div></div></div>
+  </div>
+
+  <!-- ═══ С5 НАКАЗАНИЯ ═══ -->
+  <div class="sec s5" id="s5">
+    <div class="sh"><span class="semi">⚖️</span><span class="sbadge">РАЗДЕЛ 05</span><span class="sname">Обход наказаний</span><span class="scnt" id="c5"></span></div>
+
+    <div class="rule" data-s="s5" data-sev="perm"><div class="rh" onclick="tog(this)"><span class="rnum">5.1</span><span class="rtxt">Обход блокировки аккаунта — вход с другого аккаунта с последующим нарушением</span><span class="rsev sp"></span><span class="rchev">▼</span></div><div class="rb"><div class="plabel">⚔ Наказание</div><div class="prows"><div class="pr"><span class="pt tP">Навсегда</span>Постоянная блокировка всех существующих и будущих аккаунтов</div></div></div></div>
+
+    <div class="rule" data-s="s5" data-sev="perm"><div class="rh" onclick="tog(this)"><span class="rnum">5.2</span><span class="rtxt">Обход блокировки чата через альтернативные аккаунты или иные каналы</span><span class="rsev sp"></span><span class="rchev">▼</span></div><div class="rb"><div class="plabel">⚔ Наказание</div><div class="prows"><div class="pr"><span class="pt t1">1 раз</span>Предупреждение</div><div class="pr"><span class="pt tP">2 раз</span>Постоянная блокировка всех аккаунтов</div></div></div></div>
+
+    <div class="rule" data-s="s5" data-sev="mid"><div class="rh" onclick="tog(this)"><span class="rnum">5.3</span><span class="rtxt">Подача апелляции позднее 3 суток (4320 минут) с момента получения наказания</span><span class="rsev sm"></span><span class="rchev">▼</span></div><div class="rb"><div class="plabel">ℹ️ Условие</div><div class="prows"><div class="pr"><span class="pt tS">Срок</span>Апелляция, поданная позже 3 суток, к рассмотрению не принимается</div></div><div class="note">💡 Обращайтесь в официальную поддержку сервера как можно скорее.</div></div></div>
+
+    <div class="rule" data-s="s5" data-sev="mid"><div class="rh" onclick="tog(this)"><span class="rnum">5.4</span><span class="rtxt">Публикация приватных переписок с администрацией без её согласия</span><span class="rsev sm"></span><span class="rchev">▼</span></div><div class="rb"><div class="plabel">⚔ Наказание</div><div class="prows"><div class="pr"><span class="pt tP">Разово</span>Блокировка аккаунта на 7 дней (10080 минут)</div></div></div></div>
+
+    <div class="rule" data-s="s5" data-sev="low"><div class="rh" onclick="tog(this)"><span class="rnum">5.5</span><span class="rtxt">Персонал обязан предоставить доказательства нарушения в течение 12 часов (720 минут) после выдачи наказания</span><span class="rsev sl"></span><span class="rchev">▼</span></div><div class="rb"><div class="plabel">ℹ️ Условие</div><div class="prows"><div class="pr"><span class="pt tS">Срок</span>12 часов (720 минут) с момента выдачи наказания</div></div><div class="note">💡 Доказательства, поданные позже срока, могут стать основанием для отмены наказания. Игрок вправе обратиться в поддержку для обжалования.</div></div></div>
+  </div>
+
+  <!-- ═══ С6 ГЛОССАРИЙ ═══ -->
+  <div class="sec s6" id="s6">
+    <div class="sh"><span class="semi">📖</span><span class="sbadge">ГЛОССАРИЙ</span><span class="sname">Расшифровка терминов</span></div>
+    <div class="gg">
+      <div class="gi"><div class="gt">ЧСП</div><div class="gd">Чёрный список проекта — постоянная блокировка аккаунта на всём проекте.</div></div>
+      <div class="gi"><div class="gt">ЧСПП</div><div class="gd">Чёрный список персонала — запрет на вступление в команду проекта и участие в ивентах.</div></div>
+      <div class="gi"><div class="gt">ВЧСП</div><div class="gd">Временный ЧСП — снимается при выполнении условий высшей администрации в установленный срок.</div></div>
+      <div class="gi"><div class="gt">ВМ (Вечный мут)</div><div class="gd">Пожизненная блокировка чата на весь сезон. Обход = нарушение правила 5.2.</div></div>
+      <div class="gi"><div class="gt">Варн</div><div class="gd">Официальное предупреждение. Накопление варнов влечёт ужесточение наказания.</div></div>
+      <div class="gi"><div class="gt">Кик</div><div class="gd">Принудительное отключение от сервера без блокировки аккаунта.</div></div>
+      <div class="gi"><div class="gt">Гриферство</div><div class="gd">Намеренное разрушение чужих построек и отравление игрового опыта других.</div></div>
+      <div class="gi"><div class="gt">Чит / Хак</div><div class="gd">Стороннее ПО, модифицирующее клиент для получения нечестного преимущества.</div></div>
+    </div>
+  </div>
+
+  <div class="nores" id="nores"><span class="ni">🔍</span><p>По запросу <span id="nrq"></span> ничего не найдено</p></div>
+</main>
+
+<footer><strong>Velorion</strong> — Официальный свод правил &nbsp;·&nbsp; Куратор: <strong>StefAeroXP</strong><br><span style="font-size:.72rem;color:var(--muted)">Документ действителен до выхода новой редакции</span></footer>
+</div>
+
+<button class="btt" id="btt" onclick="window.scrollTo({top:0,behavior:'smooth'})" title="Наверх">↑</button>
+
+<script>
+/* PARTICLES */
+(()=>{
+  const c=document.getElementById('cvs'),x=c.getContext('2d');
+  let W,H,p=[];
+  const res=()=>{W=c.width=innerWidth;H=c.height=innerHeight};
+  res();addEventListener('resize',res);
+  for(let i=0;i<55;i++)p.push({x:Math.random()*innerWidth,y:Math.random()*innerHeight,vx:(Math.random()-.5)*.25,vy:(Math.random()-.5)*.25,r:Math.random()*1.5+.5});
+  const fr=()=>{
+    x.clearRect(0,0,W,H);
+    for(let a of p){a.x+=a.vx;a.y+=a.vy;if(a.x<0)a.x=W;if(a.x>W)a.x=0;if(a.y<0)a.y=H;if(a.y>H)a.y=0;x.beginPath();x.arc(a.x,a.y,a.r,0,Math.PI*2);x.fillStyle='rgba(0,212,255,.6)';x.fill();}
+    for(let i=0;i<p.length;i++)for(let j=i+1;j<p.length;j++){const dx=p[i].x-p[j].x,dy=p[i].y-p[j].y,d=Math.sqrt(dx*dx+dy*dy);if(d<120){x.beginPath();x.moveTo(p[i].x,p[i].y);x.lineTo(p[j].x,p[j].y);x.strokeStyle=`rgba(0,212,255,${(1-d/120)*.12})`;x.lineWidth=.5;x.stroke();}}
+    requestAnimationFrame(fr);
+  };fr();
+})();
+
+/* INIT */
+addEventListener('DOMContentLoaded',()=>{
+  document.getElementById('vDate').textContent=new Date().toLocaleDateString('ru-RU',{day:'2-digit',month:'2-digit',year:'numeric'});
+  const ids=['s1','s2','s3','s4','s5'];
+  let tot=0;
+  ids.forEach((s,i)=>{
+    const n=document.querySelectorAll(`.rule[data-s="${s}"]`).length;
+    const el=document.getElementById(`st${i+1}`);if(el)el.textContent=n;
+    const ce=document.getElementById(`c${i+1}`);if(ce)ce.textContent=`${n} правил`;
+    tot+=n;
+  });
+  document.getElementById('vTotal').textContent=tot;
+  document.getElementById('cntAll').textContent=tot;
+  document.querySelectorAll('.sec').forEach((s,i)=>s.style.animationDelay=(i*.07)+'s');
+  updCnt();
+});
+
+/* ACCORDION */
+function tog(h){h.closest('.rule').classList.toggle('open');}
+function expAll(){document.querySelectorAll('.rule').forEach(c=>{if(getComputedStyle(c).display!=='none')c.classList.add('open')});toast('Все правила раскрыты');}
+function colAll(){document.querySelectorAll('.rule').forEach(c=>c.classList.remove('open'));toast('Все правила свёрнуты');}
+
+/* TABS */
+document.getElementById('tabs').addEventListener('click',e=>{
+  const b=e.target.closest('.tab');if(!b)return;
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+  b.classList.add('active');
+  const s=b.dataset.s;
+  document.querySelectorAll('.sec').forEach(sec=>sec.style.display=(s==='all'||sec.id===s)?'':'none');
+  document.getElementById('srch').value='';
+  document.getElementById('sclear').classList.remove('show');
+  restAll();
+  document.getElementById('nores').style.display='none';
+  updCnt();
+  window.scrollTo({top:0,behavior:'smooth'});
+});
+
+/* SEARCH */
+const SI=document.getElementById('srch');
+SI.addEventListener('input',doSearch);
+function doSearch(){
+  const q=SI.value.trim().toLowerCase();
+  document.getElementById('sclear').classList.toggle('show',q.length>0);
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+  if(!q){restAll();document.querySelectorAll('.sec').forEach(s=>s.style.display='');document.querySelector('[data-s="all"]').classList.add('active');document.getElementById('nores').style.display='none';updCnt();return;}
+  document.querySelectorAll('.sec').forEach(s=>s.style.display='');
+  let f=0;
+  document.querySelectorAll('.rule').forEach(card=>{
+    const te=card.querySelector('.rtxt'),be=card.querySelector('.rb'),ne=card.querySelector('.rnum');
+    const hay=((ne?ne.textContent:'')+' '+(te.dataset.orig||te.textContent)+' '+(be?be.textContent:'')).toLowerCase();
+    if(hay.includes(q)){
+      card.style.display='';card.classList.add('open');
+      if(!te.dataset.orig)te.dataset.orig=te.textContent;
+      te.innerHTML=te.dataset.orig.replace(new RegExp(`(${esc(q)})`,'gi'),'<mark class="hl">$1</mark>');
+      f++;
+    }else{card.style.display='none';restCard(card);}
+  });
+  document.querySelectorAll('.sec').forEach(sec=>{
+    if(sec.id==='s6'){sec.style.display='';return;}
+    const v=[...sec.querySelectorAll('.rule')].some(c=>c.style.display!=='none');
+    sec.style.display=v?'':'none';
+  });
+  document.getElementById('nores').style.display=f?'none':'block';
+  document.getElementById('nrq').textContent=`"${SI.value.trim()}"`;
+  updCnt(f,q);
+}
+function clrSrch(){SI.value='';doSearch();SI.focus();}
+function restCard(c){const e=c.querySelector('.rtxt');if(e&&e.dataset.orig)e.textContent=e.dataset.orig;}
+function restAll(){document.querySelectorAll('.rule').forEach(c=>{c.style.display='';restCard(c);});}
+function esc(s){return s.replace(/[.*+?^${}()|[\]\\]/g,'\\$&');}
+function updCnt(f,q){
+  const el=document.getElementById('rcnt');
+  if(q&&f!==undefined){el.textContent=`Найдено: ${f}`;}
+  else{const v=[...document.querySelectorAll('.rule')].filter(c=>getComputedStyle(c).display!=='none').length;el.textContent=`Показано: ${v}`;}
+}
+
+/* SCROLL */
+addEventListener('scroll',()=>{
+  const st=scrollY,dh=document.documentElement.scrollHeight-innerHeight;
+  document.getElementById('prog').style.width=(st/dh*100)+'%';
+  document.getElementById('btt').classList.toggle('show',st>400);
+});
+
+/* TOAST */
+let TT;
+function toast(m){const t=document.getElementById('toast');t.textContent=m;t.classList.add('show');clearTimeout(TT);TT=setTimeout(()=>t.classList.remove('show'),2000);}
+
+/* HOTKEYS */
+addEventListener('keydown',e=>{
+  if((e.ctrlKey||e.metaKey)&&e.key==='f'){e.preventDefault();SI.focus();SI.select();}
+  if(e.key==='Escape')clrSrch();
+});
+</script>
+</body>
+</html>
