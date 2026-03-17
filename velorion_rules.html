@@ -1,0 +1,1432 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Правила сервера Velorion</title>
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@400;600;700;900&family=Nunito:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0a0d14;
+    --card: #111520;
+    --card2: #161c2d;
+    --border: #1e2a45;
+    --accent: #4f8ef7;
+    --accent2: #7c5cfc;
+    --accent3: #f75c8e;
+    --gold: #f7c948;
+    --green: #3ecf8e;
+    --red: #f75c5c;
+    --text: #e8eaf0;
+    --muted: #7a849e;
+    --glow: 0 0 32px #4f8ef733;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Nunito', sans-serif;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* BG stars */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image:
+      radial-gradient(1px 1px at 10% 20%, #ffffff22 0%, transparent 100%),
+      radial-gradient(1px 1px at 30% 50%, #ffffff18 0%, transparent 100%),
+      radial-gradient(1px 1px at 60% 10%, #ffffff1a 0%, transparent 100%),
+      radial-gradient(1px 1px at 80% 70%, #ffffff15 0%, transparent 100%),
+      radial-gradient(1px 1px at 50% 85%, #ffffff20 0%, transparent 100%),
+      radial-gradient(1px 1px at 90% 35%, #ffffff18 0%, transparent 100%),
+      radial-gradient(2px 2px at 15% 65%, #4f8ef720 0%, transparent 100%),
+      radial-gradient(2px 2px at 75% 25%, #7c5cfc20 0%, transparent 100%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .container {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 40px 20px 80px;
+    position: relative;
+    z-index: 1;
+  }
+
+  /* HEADER */
+  .header {
+    text-align: center;
+    padding: 60px 0 50px;
+    position: relative;
+  }
+
+  .header-badge {
+    display: inline-block;
+    background: linear-gradient(135deg, #4f8ef720, #7c5cfc20);
+    border: 1px solid #4f8ef740;
+    border-radius: 50px;
+    padding: 6px 20px;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 20px;
+    animation: fadeDown 0.6s ease both;
+  }
+
+  .header h1 {
+    font-family: 'Unbounded', sans-serif;
+    font-size: clamp(32px, 6vw, 58px);
+    font-weight: 900;
+    background: linear-gradient(135deg, #ffffff 0%, #a0b4ff 40%, #7c5cfc 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    line-height: 1.1;
+    margin-bottom: 16px;
+    animation: fadeDown 0.7s ease 0.1s both;
+  }
+
+  .header-sub {
+    font-size: 15px;
+    color: var(--muted);
+    animation: fadeDown 0.7s ease 0.2s both;
+  }
+
+  .header-sub span {
+    color: var(--accent);
+    font-weight: 700;
+  }
+
+  .header-divider {
+    width: 100px;
+    height: 3px;
+    background: linear-gradient(90deg, transparent, var(--accent), var(--accent2), transparent);
+    margin: 30px auto 0;
+    border-radius: 10px;
+    animation: fadeIn 0.8s ease 0.3s both;
+  }
+
+  /* SECTION */
+  .section {
+    margin-bottom: 36px;
+    animation: fadeUp 0.6s ease both;
+  }
+
+  .section:nth-child(1) { animation-delay: 0.1s; }
+  .section:nth-child(2) { animation-delay: 0.15s; }
+  .section:nth-child(3) { animation-delay: 0.2s; }
+  .section:nth-child(4) { animation-delay: 0.25s; }
+  .section:nth-child(5) { animation-delay: 0.3s; }
+
+  .section-header {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 16px;
+    padding: 18px 24px;
+    background: linear-gradient(135deg, var(--card2), #1a2040);
+    border: 1px solid var(--border);
+    border-left: 4px solid var(--accent);
+    border-radius: 14px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .section-header::before {
+    content: '';
+    position: absolute;
+    top: 0; right: 0;
+    width: 200px; height: 100%;
+    background: linear-gradient(90deg, transparent, #4f8ef710);
+    pointer-events: none;
+  }
+
+  .section-num {
+    font-family: 'Unbounded', sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--accent);
+    background: #4f8ef715;
+    border: 1px solid #4f8ef730;
+    border-radius: 8px;
+    padding: 4px 10px;
+    white-space: nowrap;
+    letter-spacing: 1px;
+  }
+
+  .section-icon {
+    font-size: 22px;
+    flex-shrink: 0;
+  }
+
+  .section-title {
+    font-family: 'Unbounded', sans-serif;
+    font-size: 15px;
+    font-weight: 700;
+    color: #ffffff;
+    letter-spacing: 0.5px;
+  }
+
+  /* RULE CARD */
+  .rule-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    margin-bottom: 10px;
+    overflow: hidden;
+    transition: border-color 0.25s, transform 0.2s;
+  }
+
+  .rule-card:hover {
+    border-color: #2e3f6a;
+    transform: translateX(3px);
+  }
+
+  .rule-top {
+    padding: 16px 20px 12px;
+  }
+
+  .rule-num {
+    font-family: 'Unbounded', sans-serif;
+    font-size: 10px;
+    font-weight: 700;
+    color: var(--accent2);
+    letter-spacing: 2px;
+    margin-bottom: 8px;
+    display: block;
+  }
+
+  .rule-text {
+    font-size: 14px;
+    line-height: 1.65;
+    color: var(--text);
+  }
+
+  .rule-text em {
+    color: var(--muted);
+    font-style: normal;
+    font-size: 13px;
+  }
+
+  /* PUNISHMENTS */
+  .rule-punish {
+    background: #0d1120;
+    border-top: 1px solid var(--border);
+    padding: 14px 20px;
+  }
+
+  .punish-label {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .punish-label::before {
+    content: '';
+    width: 16px;
+    height: 2px;
+    background: var(--accent3);
+    border-radius: 2px;
+    flex-shrink: 0;
+  }
+
+  .punish-row {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    margin-bottom: 6px;
+    font-size: 13px;
+    line-height: 1.5;
+  }
+
+  .punish-row:last-child { margin-bottom: 0; }
+
+  .punish-badge {
+    font-size: 11px;
+    font-weight: 700;
+    border-radius: 6px;
+    padding: 2px 9px;
+    white-space: nowrap;
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+
+  .p1 { background: #3ecf8e20; color: var(--green); border: 1px solid #3ecf8e40; }
+  .p2 { background: #f7c94820; color: var(--gold); border: 1px solid #f7c94840; }
+  .p3 { background: #f75c5c20; color: var(--red); border: 1px solid #f75c5c40; }
+  .p4 { background: #f75c8e25; color: var(--accent3); border: 1px solid #f75c8e50; }
+  .perm { background: #7c1f1f30; color: #ff7070; border: 1px solid #7c1f1f60; }
+
+  .punish-desc { color: #c5cde0; }
+
+  /* SINGLE PUNISH */
+  .punish-single {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    font-size: 13px;
+    color: #c5cde0;
+    line-height: 1.5;
+  }
+
+  .punish-single::before {
+    content: '⚡';
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+
+  /* NOTE */
+  .rule-note {
+    background: #4f8ef710;
+    border: 1px solid #4f8ef725;
+    border-radius: 10px;
+    padding: 10px 14px;
+    font-size: 12.5px;
+    color: #8fa8d4;
+    margin-top: 8px;
+    line-height: 1.6;
+  }
+
+  .rule-note::before {
+    content: '💡 ';
+  }
+
+  /* SUB-RULES */
+  .sub-rules {
+    margin-top: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+  }
+
+  .sub-rule {
+    display: flex;
+    gap: 10px;
+    font-size: 13px;
+    color: #8fa8d4;
+    padding: 6px 10px;
+    background: #ffffff05;
+    border-radius: 8px;
+    line-height: 1.5;
+  }
+
+  .sub-rule-num {
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--accent);
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+
+  /* ABBREV SECTION */
+  .abbrev-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 10px;
+    margin-top: 4px;
+  }
+
+  .abbrev-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 16px 18px;
+    transition: border-color 0.2s;
+  }
+
+  .abbrev-card:hover { border-color: #3a4f7a; }
+
+  .abbrev-tag {
+    font-family: 'Unbounded', sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--accent);
+    margin-bottom: 6px;
+  }
+
+  .abbrev-desc {
+    font-size: 13px;
+    color: var(--muted);
+    line-height: 1.55;
+  }
+
+  /* FOOTER */
+  .footer {
+    text-align: center;
+    margin-top: 60px;
+    padding-top: 30px;
+    border-top: 1px solid var(--border);
+  }
+
+  .footer-logo {
+    font-family: 'Unbounded', sans-serif;
+    font-size: 22px;
+    font-weight: 900;
+    background: linear-gradient(135deg, var(--accent), var(--accent2));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 8px;
+  }
+
+  .footer-sub {
+    font-size: 13px;
+    color: var(--muted);
+  }
+
+  .footer-sub strong {
+    color: var(--accent);
+  }
+
+  /* KEYFRAMES */
+  @keyframes fadeDown {
+    from { opacity: 0; transform: translateY(-16px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+  }
+
+  /* SCROLLBAR */
+  ::-webkit-scrollbar { width: 6px; }
+  ::-webkit-scrollbar-track { background: var(--bg); }
+  ::-webkit-scrollbar-thumb { background: #2a3550; border-radius: 10px; }
+</style>
+</head>
+<body>
+
+<div class="container">
+
+  <!-- HEADER -->
+  <div class="header">
+    <div class="header-badge">📜 Официальный свод правил</div>
+    <h1>VELORION</h1>
+    <div class="header-sub">Все игроки обязаны соблюдать нижеуказанные правила.<br>Факт входа на сервер означает полное согласие с ними. Куратор: <span>StefAeroXP</span></div>
+    <div class="header-divider"></div>
+  </div>
+
+
+  <!-- ===== SECTION 1 ===== -->
+  <div class="section">
+    <div class="section-header">
+      <span class="section-num">РАЗДЕЛ 1</span>
+      <span class="section-icon">💬</span>
+      <span class="section-title">Правила поведения в чате</span>
+    </div>
+
+    <!-- 1.1 -->
+    <div class="rule-card">
+      <div class="rule-top">
+        <span class="rule-num">ПРАВИЛО 1.1</span>
+        <div class="rule-text">Намеренная дезинформация игроков сервера — распространение заведомо ложных сведений об обновлениях, вайпах и иных событиях.</div>
+      </div>
+      <div class="rule-punish">
+        <div class="punish-label">Наказание</div>
+        <div class="punish-single">Блокировка чата на 1 час (60 минут)</div>
+      </div>
+    </div>
+
+    <!-- 1.2 -->
+    <div class="rule-card">
+      <div class="rule-top">
+        <span class="rule-num">ПРАВИЛО 1.2</span>
+        <div class="rule-text">Оскорбления в адрес игроков в любом виде — включая вопросительную форму.</div>
+      </div>
+      <div class="rule-punish">
+        <div class="punish-label">Наказание</div>
+        <div class="punish-row">
+          <span class="punish-badge p1">1 раз</span>
+          <span class="punish-desc">Предупреждение</span>
+        </div>
+        <div class="punish-row">
+          <span class="punish-badge p2">2 раз</span>
+          <span class="punish-desc">Блокировка чата на 1 час (60 минут)</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- 1.3 -->
+    <div class="rule-card">
+      <div class="rule-top">
+        <span class="rule-num">ПРАВИЛО 1.3</span>
+        <div class="rule-text">Нарушение закона — проявление расизма, нацистской символики, межнациональной ненависти, пропаганда наркотиков, алкоголя, табака, терроризма, суицида, оружия, а также упоминание запрещённых организаций.</div>
+      </div>
+      <div class="rule-punish">
+        <div class="punish-label">Наказание</div>
+        <div class="punish-single">Блокировка аккаунта на 3 дня (4320 минут)</div>
+      </div>
+    </div>
+
+    <!-- 1.4 -->
+    <div class="rule-card">
+      <div class="rule-top">
+        <span class="rule-num">ПРАВИЛО 1.4</span>
+        <div class="rule-text">Спам и флуд в общем чате, злоупотребление капслоком.<br><em>Исключение: эмоциональные сообщения заглавными буквами — не более 3 подряд. Чат-игры не в счёт.</em></div>
+      </div>
+      <div class="rule-punish">
+        <div class="punish-label">Наказание</div>
+        <div class="punish-row">
+          <span class="punish-badge p1">1 раз</span>
+          <span class="punish-desc">Предупреждение</span>
+        </div>
+        <div class="punish-row">
+          <span class="punish-badge p2">2 раз</span>
+          <span class="punish-desc">Блокировка чата на 1 час (60 минут)</span>
+        </div>
+        <div class="punish-row">
+          <span class="punish-badge p3">3 раз</span>
+          <span class="punish-desc">Блокировка чата на 2 часа (120 минут)</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- 1.5 -->
+    <div class="rule-card">
+      <div class="rule-top">
+        <span class="rule-num">ПРАВИЛО 1.5</span>
+        <div class="rule-text">Угрозы в адрес игроков или администрации в любой форме.</div>
+      </div>
+      <div class="rule-punish">
+        <div class="punish-label">Наказание</div>
+        <div class="punish-row">
+          <span class="punish-badge p1">1 раз</span>
+          <span class="punish-desc">Блокировка чата на 30 минут</span>
+        </div>
+        <div class="punish-row">
+          <span class="punish-badge p2">2 раз</span>
+          <span class="punish-desc">Блокировка чата на 3 часа (180 минут)</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- 1.6 -->
+    <div class="rule-card">
+      <div class="rule-top">
+        <span class="rule-num">ПРАВИЛО 1.6</span>
+        <div class="rule-text">Попрошайничество — просьбы о донате, ресурсах и прочих игровых ценностях.</div>
+      </div>
+      <div class="rule-punish">
+        <div class="punish-label">Наказание</div>
+        <div class="punish-row">
+          <span class="punish-badge p1">1 раз</span>
+          <span class="punish-desc">Предупреждение</span>
+        </div>
+        <div class="punish-row">
+          <span class="punish-badge p2">2 раз</span>
+          <span class="punish-desc">Блокировка чата на 30 минут</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- 1.7 -->
+    <div class="rule-card">
+      <div class="rule-top">
+        <span class="rule-num">ПРАВИЛО 1.7</span>
+        <div class="rule-text">Упоминание сторонних медиаресурсов и проектов в чате — умышленное, без цели рекламы.</div>
+      </div>
+      <div class="rule-punish">
+        <div class="punish-label">Наказание</div>
+        <div class="punish-single">Блокировка чата на 40 минут</div>
+      </div>
+    </div>
+
+    <!-- 1.7.1 -->
+    <div class="rule-card">
+      <div class="rule-top">
+        <span class="rule-num">ПРАВИЛО 1.7.1</span>
+        <div class="rule-text">Реклама сторонних медиаресурсов, проектов, каналов и сопутствующей информации.</div>
+      </div>
+      <div class="rule-punish">
+        <div class="punish-label">Наказание</div>
+        <div class="punish-single">Блокировка аккаунта на 1 неделю (10080 минут)</div>
+      </div>
+    </div>
+
+    <!-- 1.8 -->
+    <div class="rule-card">
+      <div class="rule-top">
+        <span class="rule-num">ПРАВИЛО 1.8</span>
+        <div class="rule-text">Разжигание конфликтов на почве этнической принадлежности, пола, возраста, вероисповедания или сексуальной ориентации.</div>
+      </div>
+      <div class="rule-punish">
+        <div class="punish-label">Наказание</div>
+        <div class="punish-row">
+          <span class="punish-badge p1">1 раз</span>
+          <span class="punish-desc">Блокировка чата на 30 минут</span>
+        </div>
+        <div class="punish-row">
+          <span class="punish-badge p2">2 раз</span>
+          <span class="punish-desc">Блокировка аккаунта на 1 день (1440 минут)</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- 1.9 -->
+    <div class="rule-card">
+      <div class="rule-top">
+        <span class="rule-num">ПРАВИЛО 1.9</span>
+        <div class="rule-text">Критика и публичное негативное обсуждение проекта в общем чате.</div>
+      </div>
+      <div class="rule-punish">
+        <div class="punish-label">Наказание</div>
+        <div class="punish-single">Блокировка аккаунта на 1 неделю (10080 минут)</div>
+      </div>
+    </div>
+
+    <!-- 1.10 -->
+    <div class="rule-card">
+      <div class="rule-top">
+        <span class="rule-num">ПРАВИЛО 1.10</span>
+        <div class="rule-text">Оскорбления, провокации и неуважительное общение в адрес администрации проекта.</div>
+      </div>
+      <div class="rule-punish">
+        <div class="punish-label">Наказание</div>
+        <div class="punish-row">
+          <span class="punish-badge p1">1 раз</span>
+          <span class="punish-desc">Блокировка чата на 3 часа (180 минут)</span>
+        </div>
+        <div class="punish-row">
+          <span class="punish-badge p2">2 раз</span>
+          <span class="punish-desc">Блокировка аккаунта на 1 день (1440 минут)</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- 1.11 -->
+    <div class="rule-card">
+      <div class="rule-top">
+        <span class="rule-num">ПРАВИЛО 1.11</span>
+        <div class="rule-text">Упоминание родственников игроков или администрации в оскорбительном контексте.<br><em>Исключение: RP-процесс.</em></div>
+      </div>
+      <div class="rule-punish">
+        <div class="punish-label">Наказание</div>
+        <div class="punish-single">Блокировка чата на 2 часа (120 минут)</div>
+      </div>
+    </div>
+
+    <!-- 1.12 -->
+    <div class="rule-card">
+      <div class="rule-top">
+        <span class="rule-num">ПРАВИЛО 1.12</span>
+        <div class="rule-text">Провокационные действия, направленные на нарушение спокойствия в чате или конфликт с другими игроками.</div>
+      </div>
+      <div class="rule-punish">
+        <div class="punish-label">Наказание</div>
+        <div class="punish-row">
+          <span class="punish-badge p1">1 раз</span>
+          <span class="punish-desc">Предупреждение</span>
+        </div>
+        <div class="punish-row">
+          <span class="punish-badge p2">2 раз</span>
+          <span class="punish-desc">Блокировка чата на 60 минут</span>
+        </div>
+        <div class="punish-row">
+          <span class="punish-badge p3">3 раз</span>
+          <span class="punish-desc">Блокировка чата на 180 минут</span>
+        </div>
+        <div class="punish-row">
+          <span class="punish-badge p4">4 раз</span>
+          <span class="punish-desc">Блокировка аккаунта на 3 дня (4320 минут)</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- 1.13 -->
+    <div class="rule-card">
+      <div class="rule-top">
+        <span class="rule-num">ПРАВИЛО 1.13</span>
+        <div class="rule-text">Подстрекательство других игроков к нарушению правил сервера.</div>
+      </div>
+      <div class="rule-punish">
+        <div class="punish-label">Наказание</div>
+        <div class="punish-single">Блокировка аккаунта на 3 дня (4320 минут)</div>
+      </div>
+    </div>
+
+    <!-- 1.14 -->
+    <div class="rule-card">
+      <div class="rule-top">
+        <span class="rule-num">ПРАВИЛО 1.14</span>
+        <div class="rule-text">Распространение вредоносных ссылок, а также публичное раскрытие багов и недоработок сервера.<br><em>Все недоработки необходимо сообщать исключительно в техподдержку.</em></div>
+      </div>
+      <div class="rule-punish">
+        <div class="punish-label">Наказание</div>
+        <div class="punish-single">Блокировка аккаунта на 1 неделю (10080 минут)</div>
+      </div>
+    </div>
+
+    <!-- 1.15 -->
+    <div class="rule-card">
+      <div class="rule-top">
+        <span class="rule-num">ПРАВИЛО 1.15</span>
+        <div class="rule-text">Нецелевые обращения в /report — жалобы, не связанные с реальными нарушениями.</div>
+      </div>
+      <div class="rule-punish">
+        <div class="punish-label">Наказание</div>
+        <div class="punish-single">Блокировка аккаунта на 1 неделю (10080 минут)</div>
+      </div>
+    </div>
+
+    <!-- 1.16 -->
+    <div class="rule-card">
+      <div class="rule-top">
+        <span class="rule-num">ПРАВИЛО 1.16</span>
+        <div class="rule-text">Умышленная организация засорения чата.<br><em>Исключение: конкурсы, проводимые с разрешения администрации.</em></div>
+      </div>
+      <div class="rule-punish">
+        <div class="punish-label">Наказание</div>
+        <div class="punish-single">Блокировка чата организатора на 1 час (60 минут)</div>
+      </div>
+    </div>
+
+    <!-- 1.17 -->
+    <div class="rule-card">
+      <div class="rule-top">
+        <span class="rule-num">ПРАВИЛО 1.17</span>
+        <div class="rule-text">Засорение консоли (/console) спамом или флудом, а также использование команд-троллей (/launch, /shock).</div>
+      </div>
+      <div class="rule-punish">
+        <div class="punish-label">Наказание</div>
+        <div class="punish-row">
+          <span class="punish-badge p1">1 раз</span>
+          <span class="punish-desc">Предупреждение</span>
+        </div>
+        <div class="punish-row">
+          <span class="punish-badge p2">2 раз</span>
+          <span class="punish-desc">Кик</span>
+        </div>
+        <div class="punish-row">
+          <span class="punish-badge p3">3 раз</span>
+          <span class="punish-desc">Блокировка аккаунта на 1 день (1440 минут)</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- 1.18 -->
+    <div class="rule-card">
+      <div class="rule-top">
+        <span class="rule-num">ПРАВИЛО 1.18</span>
+        <div class="rule-text">Доксинг, угрозы свататься, публикация личных данных игроков или администрации в чате, на табличках, в консоли и в других местах.</div>
+      </div>
+      <div class="rule-punish">
+        <div class="punish-label">Наказание</div>
+        <div class="punish-row">
+          <span class="punish-badge p1">1 раз</span>
+          <span class="punish-desc">Вечный мут (ВМ)</span>
+        </div>
+        <div class="punish-row">
+          <span class="punish-badge perm">2 раз</span>
+          <span class="punish-desc">Вечная блокировка (ЧСП/ВЧСП)</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+
+  <!-- ===== SECTION 2 ===== -->
+  <div class="section">
+    <div class="section-header">
+      <span class="section-num">РАЗДЕЛ 2</span>
+      <span class="section-icon">🛠️</span>
+      <span class="section-title">Правила использования модификаций</span>
+    </div>
+
+    <!-- 2.1 -->
+    <div class="rule-card">
+      <div class="rule-top">
+        <span class="rule-num">ПРАВИЛО 2.1</span>
+        <div class="rule-text">Использование читов, RP-клиентов, стороннего ПО, предоставляющего преимущество; игра в команде с нарушителем данного правила; использование макросов, турбо-кликеров и мышек с двойным кликом; упоминание запрещённых клиентов.</div>
+      </div>
+      <div class="rule-punish">
+        <div class="punish-label">Наказание</div>
+        <div class="punish-single">Вечная блокировка аккаунта + понижение до Игрока</div>
+      </div>
+    </div>
+
+    <!-- 2.2 -->
+    <div class="rule-card">
+      <div class="rule-top">
+        <span class="rule-num">ПРАВИЛО 2.2</span>
+        <div class="rule-text">Признание в использовании читов — в том числе в «шуточной» форме.</div>
+      </div>
+      <div class="rule-punish">
+        <div class="punish-label">Наказание</div>
+        <div class="punish-single">Блокировка аккаунта на 3 недели (30240 минут)</div>
+      </div>
+    </div>
+
+    <!-- 2.3 -->
+    <div class="rule-card">
+      <div class="rule-top">
+        <span class="rule-num">ПРАВИЛО 2.3</span>
+        <div class="rule-text">Применение программ, способных нанести вред стабильной работе сервера.</div>
+      </div>
+      <div class="rule-punish">
+        <div class="punish-label">Наказание</div>
+        <div class="punish-single">Вечная блокировка аккаунта + понижение до Игрока</div>
+      </div>
+    </div>
+
+    <!-- 2.4 -->
+    <div class="rule-card">
+      <div class="rule-top">
+        <span class="rule-num">ПРАВИЛО 2.4</span>
+        <div class="rule-text">Намеренное использование багов и недоработок серверного кода.</div>
+      </div>
+      <div class="rule-punish">
+        <div class="punish-label">Наказание</div>
+        <div class="punish-single">Блокировка аккаунта на 2 недели (20160 минут)</div>
+      </div>
+    </div>
+
+    <!-- 2.5 -->
+    <div class="rule-card">
+      <div class="rule-top">
+        <span class="rule-num">ПРАВИЛО 2.5</span>
+        <div class="rule-text">Уклонение или игнорирование проверок на использование читов и стороннего ПО.</div>
+      </div>
+      <div class="rule-punish">
+        <div class="punish-label">Наказание</div>
+        <div class="punish-single">Блокировка аккаунта на 3 недели (30240 минут)</div>
+      </div>
+    </div>
+
+    <!-- 2.6 -->
+    <div class="rule-card">
+      <div class="rule-top">
+        <span class="rule-num">ПРАВИЛО 2.6</span>
+        <div class="rule-text">Игра в одной команде с игроком, нарушающим правило 2.1.</div>
+      </div>
+      <div class="rule-punish">
+        <div class="punish-label">Наказание</div>
+        <div class="punish-row">
+          <span class="punish-badge p1">1 раз</span>
+          <span class="punish-desc">Бан на 30 дней (43800 минут)</span>
+        </div>
+        <div class="punish-row">
+          <span class="punish-badge p2">2 раз</span>
+          <span class="punish-desc">Бан на 60 дней (86400 минут)</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+
+  <!-- ===== SECTION 3 ===== -->
+  <div class="section">
+    <div class="section-header">
+      <span class="section-num">РАЗДЕЛ 3</span>
+      <span class="section-icon">👤</span>
+      <span class="section-title">Правила использования аккаунта</span>
+    </div>
+
+    <!-- 3.1 -->
+    <div class="rule-card">
+      <div class="rule-top">
+        <span class="rule-num">ПРАВИЛО 3.1</span>
+        <div class="rule-text">Создание никнеймов/префиксов с ненормативной лексикой, оскорбительным, порнографическим или провокационным содержанием, а также с рекламой или названиями стороннего ПО.</div>
+      </div>
+      <div class="rule-punish">
+        <div class="punish-label">Наказание</div>
+        <div class="punish-row">
+          <span class="punish-badge p1">1 раз</span>
+          <span class="punish-desc">Кик</span>
+        </div>
+        <div class="punish-row">
+          <span class="punish-badge perm">2 раз</span>
+          <span class="punish-desc">Вечная блокировка аккаунта</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- 3.2 -->
+    <div class="rule-card">
+      <div class="rule-top">
+        <span class="rule-num">ПРАВИЛО 3.2</span>
+        <div class="rule-text">Взлом чужого аккаунта или объективные подозрения со стороны администрации во взломе.</div>
+      </div>
+      <div class="rule-punish">
+        <div class="punish-label">Наказание</div>
+        <div class="punish-single">Блокировка взломанного аккаунта до обращения в поддержку + вечная блокировка всех аккаунтов взломщика + снятие всех привилегий</div>
+      </div>
+    </div>
+
+    <!-- 3.3 -->
+    <div class="rule-card">
+      <div class="rule-top">
+        <span class="rule-num">ПРАВИЛО 3.3</span>
+        <div class="rule-text">Передача аккаунта посторонним лицам.</div>
+      </div>
+      <div class="rule-punish">
+        <div class="punish-label">Наказание</div>
+        <div class="punish-single">Вечная блокировка аккаунта + понижение до Игрока</div>
+      </div>
+    </div>
+
+    <!-- 3.4 -->
+    <div class="rule-card">
+      <div class="rule-top">
+        <span class="rule-num">ПРАВИЛО 3.4</span>
+        <div class="rule-text">Продажа игровых ценностей (предметов, ресурсов) за реальные деньги.</div>
+      </div>
+      <div class="rule-punish">
+        <div class="punish-label">Наказание</div>
+        <div class="punish-single">Блокировка аккаунта на 2 недели (20160 минут)</div>
+      </div>
+    </div>
+
+    <!-- 3.5 -->
+    <div class="rule-card">
+      <div class="rule-top">
+        <span class="rule-num">ПРАВИЛО 3.5</span>
+        <div class="rule-text">Регистрация никнеймов, схожих с никнеймами высшей администрации сервера.</div>
+      </div>
+      <div class="rule-punish">
+        <div class="punish-label">Наказание</div>
+        <div class="punish-single">Вечная блокировка аккаунта</div>
+      </div>
+    </div>
+
+    <!-- 3.6 -->
+    <div class="rule-card">
+      <div class="rule-top">
+        <span class="rule-num">ПРАВИЛО 3.6</span>
+        <div class="rule-text">Создание кланов с оскорбительным, провокационным или нецензурным названием.</div>
+      </div>
+      <div class="rule-punish">
+        <div class="punish-label">Наказание</div>
+        <div class="punish-single">Блокировка аккаунта создателя на 1 неделю (10080 минут) + удаление клана</div>
+      </div>
+    </div>
+
+    <!-- 3.7 -->
+    <div class="rule-card">
+      <div class="rule-top">
+        <span class="rule-num">ПРАВИЛО 3.7</span>
+        <div class="rule-text">Использование скинов с нацистской символикой, порнографическим содержанием, рекламой сторонних ресурсов, а также «невидимых» скинов.</div>
+      </div>
+      <div class="rule-punish">
+        <div class="punish-label">Наказание</div>
+        <div class="punish-single">Блокировка аккаунта на 7 дней (10080 минут)</div>
+      </div>
+    </div>
+
+    <!-- 3.8 -->
+    <div class="rule-card">
+      <div class="rule-top">
+        <span class="rule-num">ПРАВИЛО 3.8</span>
+        <div class="rule-text">Установка /jm set с оскорбительным, провокационным или нецензурным содержанием.</div>
+      </div>
+      <div class="rule-punish">
+        <div class="punish-label">Наказание</div>
+        <div class="punish-row">
+          <span class="punish-badge p1">1 раз</span>
+          <span class="punish-desc">Блокировка аккаунта на 7 дней (10080 минут)</span>
+        </div>
+        <div class="punish-row">
+          <span class="punish-badge p2">2 раз</span>
+          <span class="punish-desc">Блокировка аккаунта на 30 дней (43800 минут)</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- 3.9 -->
+    <div class="rule-card">
+      <div class="rule-top">
+        <span class="rule-num">ПРАВИЛО 3.9</span>
+        <div class="rule-text">Установка префиксов, превышающих уровень вашей привилегии.</div>
+      </div>
+      <div class="rule-punish">
+        <div class="punish-label">Наказание</div>
+        <div class="punish-row">
+          <span class="punish-badge p1">1–2 раз</span>
+          <span class="punish-desc">Предупреждение</span>
+        </div>
+        <div class="punish-row">
+          <span class="punish-badge p3">3 раз</span>
+          <span class="punish-desc">Блокировка аккаунта на 7 дней (10080 минут)</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- 3.10 -->
+    <div class="rule-card">
+      <div class="rule-top">
+        <span class="rule-num">ПРАВИЛО 3.10</span>
+        <div class="rule-text">Попытка взлома аккаунтов администрации и их твинков.</div>
+      </div>
+      <div class="rule-punish">
+        <div class="punish-label">Наказание</div>
+        <div class="punish-single">Вечная блокировка всех аккаунтов + понижение до Игрока</div>
+      </div>
+    </div>
+
+  </div>
+
+
+  <!-- ===== SECTION 4 ===== -->
+  <div class="section">
+    <div class="section-header">
+      <span class="section-num">РАЗДЕЛ 4</span>
+      <span class="section-icon">🎮</span>
+      <span class="section-title">Правила игрового процесса</span>
+    </div>
+
+    <!-- 4.1 -->
+    <div class="rule-card">
+      <div class="rule-top">
+        <span class="rule-num">ПРАВИЛО 4.1</span>
+        <div class="rule-text">Гриферство в любой форме, а именно:
+          <div class="sub-rules">
+            <div class="sub-rule"><span class="sub-rule-num">4.1.1</span> Разрушение чужих построек и блокировка входа в дома/сооружения</div>
+            <div class="sub-rule"><span class="sub-rule-num">4.1.2</span> Обман игроков с целью убийства</div>
+            <div class="sub-rule"><span class="sub-rule-num">4.1.3</span> Телепортация к игроку (/tpa) с целью убийства</div>
+            <div class="sub-rule"><span class="sub-rule-num">4.1.4</span> Постройка ловушек с целью нанесения вреда</div>
+            <div class="sub-rule"><span class="sub-rule-num">4.1.5</span> Установка личного варпа (/pwarp) с целью гриферства</div>
+            <div class="sub-rule"><span class="sub-rule-num">4.1.6</span> Убийство игроков через /sethome</div>
+          </div>
+        </div>
+        <div class="rule-note">PvP в обычном мире разрешён. Постройки без привата становятся общедоступными. Гриферство участника в своём же регионе также наказуемо.</div>
+      </div>
+      <div class="rule-punish">
+        <div class="punish-label">Наказание</div>
+        <div class="punish-row">
+          <span class="punish-badge p1">1 раз</span>
+          <span class="punish-desc">Блокировка аккаунта на 3 дня (4320 минут)</span>
+        </div>
+        <div class="punish-row">
+          <span class="punish-badge p2">2 раз</span>
+          <span class="punish-desc">Блокировка аккаунта на 7 дней (10080 минут) + снятие привилегии</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- 4.2 -->
+    <div class="rule-card">
+      <div class="rule-top">
+        <span class="rule-num">ПРАВИЛО 4.2</span>
+        <div class="rule-text">Использование донат-возможностей (/tp + kill, /freeze + kill и т.п.) в корыстных целях — для убийства игроков.</div>
+        <div class="rule-note">Телепортировавшийся игрок не имеет права применять какие-либо действия против принявшего ТП.</div>
+      </div>
+      <div class="rule-punish">
+        <div class="punish-label">Наказание</div>
+        <div class="punish-row">
+          <span class="punish-badge p1">1 раз</span>
+          <span class="punish-desc">Блокировка аккаунта на 3 дня (4320 минут)</span>
+        </div>
+        <div class="punish-row">
+          <span class="punish-badge p2">2 раз</span>
+          <span class="punish-desc">Блокировка аккаунта на 7 дней + снятие привилегии</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- 4.3 -->
+    <div class="rule-card">
+      <div class="rule-top">
+        <span class="rule-num">ПРАВИЛО 4.3</span>
+        <div class="rule-text">Накрутка статистики — убийств, смертей, репутации — любыми способами, включая использование друзей или других аккаунтов (3+ раза).<br><em>Исключение: объявленные конкурсы с реально выплаченными призами.</em></div>
+      </div>
+      <div class="rule-punish">
+        <div class="punish-label">Наказание</div>
+        <div class="punish-single">Блокировка аккаунта на 2 недели (20160 минут)</div>
+      </div>
+    </div>
+
+    <!-- 4.4 -->
+    <div class="rule-card">
+      <div class="rule-top">
+        <span class="rule-num">ПРАВИЛО 4.4</span>
+        <div class="rule-text">Создание варпов (/pwarp) с оскорбительным, провокационным или нецензурным названием.</div>
+      </div>
+      <div class="rule-punish">
+        <div class="punish-label">Наказание</div>
+        <div class="punish-row">
+          <span class="punish-badge p1">1 раз</span>
+          <span class="punish-desc">Блокировка аккаунта на 3 дня + удаление варпа</span>
+        </div>
+        <div class="punish-row">
+          <span class="punish-badge p2">2 раз</span>
+          <span class="punish-desc">Блокировка аккаунта на 7 дней + удаление варпа</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- 4.5 -->
+    <div class="rule-card">
+      <div class="rule-top">
+        <span class="rule-num">ПРАВИЛО 4.5</span>
+        <div class="rule-text">Вмешательство в чужой регион или создание помех игровому процессу других игроков.</div>
+      </div>
+      <div class="rule-punish">
+        <div class="punish-label">Наказание</div>
+        <div class="punish-row">
+          <span class="punish-badge p1">1 раз</span>
+          <span class="punish-desc">Предупреждение</span>
+        </div>
+        <div class="punish-row">
+          <span class="punish-badge p2">2 раз</span>
+          <span class="punish-desc">Кик</span>
+        </div>
+        <div class="punish-row">
+          <span class="punish-badge p3">3 раз</span>
+          <span class="punish-desc">Бан на 1 день (1440 минут)</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- 4.6 -->
+    <div class="rule-card">
+      <div class="rule-top">
+        <span class="rule-num">ПРАВИЛО 4.6</span>
+        <div class="rule-text">Постройки с изображением половых органов, нацистской символики, матов или оскорбительного содержания.</div>
+      </div>
+      <div class="rule-punish">
+        <div class="punish-label">Наказание</div>
+        <div class="punish-single">Блокировка аккаунта на 7 дней (10080 минут)</div>
+      </div>
+    </div>
+
+    <!-- 4.7 -->
+    <div class="rule-card">
+      <div class="rule-top">
+        <span class="rule-num">ПРАВИЛО 4.7</span>
+        <div class="rule-text">Мошенничество — обман игроков с целью завладения их игровыми ценностями.</div>
+      </div>
+      <div class="rule-punish">
+        <div class="punish-label">Наказание</div>
+        <div class="punish-single">Блокировка аккаунта на 7 дней (10080 минут)</div>
+      </div>
+    </div>
+
+    <!-- 4.8 -->
+    <div class="rule-card">
+      <div class="rule-top">
+        <span class="rule-num">ПРАВИЛО 4.8</span>
+        <div class="rule-text">Выдача себя за представителя администрации проекта.</div>
+      </div>
+      <div class="rule-punish">
+        <div class="punish-label">Наказание</div>
+        <div class="punish-single">Блокировка аккаунта на 3 дня (4320 минут)</div>
+      </div>
+    </div>
+
+    <!-- 4.9 -->
+    <div class="rule-card">
+      <div class="rule-top">
+        <span class="rule-num">ПРАВИЛО 4.9</span>
+        <div class="rule-text">Введение администрации в заблуждение в любой форме.</div>
+      </div>
+      <div class="rule-punish">
+        <div class="punish-label">Наказание</div>
+        <div class="punish-single">Вечная блокировка аккаунта</div>
+      </div>
+    </div>
+
+    <!-- 4.10 -->
+    <div class="rule-card">
+      <div class="rule-top">
+        <span class="rule-num">ПРАВИЛО 4.10</span>
+        <div class="rule-text">Создание помех в работе персонала проекта.</div>
+      </div>
+      <div class="rule-punish">
+        <div class="punish-label">Наказание</div>
+        <div class="punish-single">Блокировка аккаунта на 3 дня (4320 минут)</div>
+      </div>
+    </div>
+
+    <!-- 4.11 -->
+    <div class="rule-card">
+      <div class="rule-top">
+        <span class="rule-num">ПРАВИЛО 4.11</span>
+        <div class="rule-text">Размещение рекламы каналов, ссылок, ников групп/каналов на табличках, в книгах, в виде построек или призывов к подписке.</div>
+      </div>
+      <div class="rule-punish">
+        <div class="punish-label">Наказание</div>
+        <div class="punish-single">Блокировка аккаунта на 1 неделю (10080 минут)</div>
+      </div>
+    </div>
+
+    <!-- 4.12 -->
+    <div class="rule-card">
+      <div class="rule-top">
+        <span class="rule-num">ПРАВИЛО 4.12</span>
+        <div class="rule-text">Скрытие обнаруженных багов от администрации проекта.</div>
+      </div>
+      <div class="rule-punish">
+        <div class="punish-label">Наказание</div>
+        <div class="punish-single">Блокировка аккаунта на 1 неделю (10080 минут)</div>
+      </div>
+    </div>
+
+    <!-- 4.13 -->
+    <div class="rule-card">
+      <div class="rule-top">
+        <span class="rule-num">ПРАВИЛО 4.13</span>
+        <div class="rule-text">Использование команды //wset для получения заработка через /job или /buyer.</div>
+      </div>
+      <div class="rule-punish">
+        <div class="punish-label">Наказание</div>
+        <div class="punish-row">
+          <span class="punish-badge p1">1 раз</span>
+          <span class="punish-desc">Блокировка аккаунта на 3 дня (4320 минут)</span>
+        </div>
+        <div class="punish-row">
+          <span class="punish-badge p2">2 раз</span>
+          <span class="punish-desc">Блокировка аккаунта на 7 дней (10080 минут)</span>
+        </div>
+        <div class="punish-row">
+          <span class="punish-badge p3">3 раз</span>
+          <span class="punish-desc">Блокировка аккаунта на 30 дней (43800 минут)</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- 4.14 -->
+    <div class="rule-card">
+      <div class="rule-top">
+        <span class="rule-num">ПРАВИЛО 4.14</span>
+        <div class="rule-text">Попытки намеренно вызвать краш или снос сервера.</div>
+      </div>
+      <div class="rule-punish">
+        <div class="punish-label">Наказание</div>
+        <div class="punish-single">Вечная блокировка всех аккаунтов + полный сброс статистики</div>
+      </div>
+    </div>
+
+    <!-- 4.15 -->
+    <div class="rule-card">
+      <div class="rule-top">
+        <span class="rule-num">ПРАВИЛО 4.15</span>
+        <div class="rule-text">Использование поддельного никнейма с целью дискредитации реального игрока и его блокировки.</div>
+      </div>
+      <div class="rule-punish">
+        <div class="punish-label">Наказание</div>
+        <div class="punish-row">
+          <span class="punish-badge p1">1 раз</span>
+          <span class="punish-desc">Кик</span>
+        </div>
+        <div class="punish-row">
+          <span class="punish-badge perm">2 раз</span>
+          <span class="punish-desc">Вечная блокировка аккаунта</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- 4.16 -->
+    <div class="rule-card">
+      <div class="rule-top">
+        <span class="rule-num">ПРАВИЛО 4.16</span>
+        <div class="rule-text">Намеренный выход с сервера для уклонения от наказания — если после нарушения игрок не возвращается более 5 минут.</div>
+      </div>
+      <div class="rule-punish">
+        <div class="punish-label">Наказание</div>
+        <div class="punish-row">
+          <span class="punish-badge p1">1 раз</span>
+          <span class="punish-desc">Бан на 1 день (1440 минут)</span>
+        </div>
+        <div class="punish-row">
+          <span class="punish-badge p2">2 раз</span>
+          <span class="punish-desc">Бан на 7 дней (10080 минут)</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+
+  <!-- ===== SECTION 5 ===== -->
+  <div class="section">
+    <div class="section-header">
+      <span class="section-num">РАЗДЕЛ 5</span>
+      <span class="section-icon">⚖️</span>
+      <span class="section-title">Правила наказаний</span>
+    </div>
+
+    <!-- 5.1 -->
+    <div class="rule-card">
+      <div class="rule-top">
+        <span class="rule-num">ПРАВИЛО 5.1</span>
+        <div class="rule-text">Обход блокировки аккаунта путём входа с другого аккаунта с последующим нарушением правил.</div>
+      </div>
+      <div class="rule-punish">
+        <div class="punish-label">Наказание</div>
+        <div class="punish-single">Вечная блокировка всех существующих и будущих аккаунтов</div>
+      </div>
+    </div>
+
+    <!-- 5.1.1 -->
+    <div class="rule-card">
+      <div class="rule-top">
+        <span class="rule-num">ПРАВИЛО 5.1.1</span>
+        <div class="rule-text">Обход блокировки чата через другой аккаунт или через /console, /tell, /cchat.</div>
+      </div>
+      <div class="rule-punish">
+        <div class="punish-label">Наказание</div>
+        <div class="punish-row">
+          <span class="punish-badge p1">1 раз</span>
+          <span class="punish-desc">Предупреждение</span>
+        </div>
+        <div class="punish-row">
+          <span class="punish-badge perm">2 раз</span>
+          <span class="punish-desc">Вечная блокировка всех аккаунтов</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- 5.2.1 -->
+    <div class="rule-card">
+      <div class="rule-top">
+        <span class="rule-num">ПРАВИЛО 5.2.1</span>
+        <div class="rule-text">Неправомерная выдача блокировки аккаунта игроку без оснований.</div>
+      </div>
+      <div class="rule-punish">
+        <div class="punish-label">Наказание</div>
+        <div class="punish-row">
+          <span class="punish-badge p1">1 раз</span>
+          <span class="punish-desc">Блокировка аккаунта на 7 дней (10080 минут)</span>
+        </div>
+        <div class="punish-row">
+          <span class="punish-badge p2">2 раз</span>
+          <span class="punish-desc">Блокировка аккаунта на 30 дней (43800 минут) + снятие привилегии</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- 5.2.2 -->
+    <div class="rule-card">
+      <div class="rule-top">
+        <span class="rule-num">ПРАВИЛО 5.2.2</span>
+        <div class="rule-text">Неправомерная блокировка чата без достаточных оснований.</div>
+      </div>
+      <div class="rule-punish">
+        <div class="punish-label">Наказание</div>
+        <div class="punish-row">
+          <span class="punish-badge p1">1 раз</span>
+          <span class="punish-desc">Блокировка аккаунта на 3 дня (4320 минут)</span>
+        </div>
+        <div class="punish-row">
+          <span class="punish-badge p2">2 раз</span>
+          <span class="punish-desc">Блокировка аккаунта на 14 дней (20160 минут)</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- 5.2.3 -->
+    <div class="rule-card">
+      <div class="rule-top">
+        <span class="rule-num">ПРАВИЛО 5.2.3</span>
+        <div class="rule-text">Выдача предупреждений без оснований или с нарушением регламента.</div>
+      </div>
+      <div class="rule-punish">
+        <div class="punish-label">Наказание</div>
+        <div class="punish-row">
+          <span class="punish-badge p1">1 раз</span>
+          <span class="punish-desc">Кик</span>
+        </div>
+        <div class="punish-row">
+          <span class="punish-badge p2">2 раз</span>
+          <span class="punish-desc">Блокировка аккаунта на 3 дня (4320 минут)</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- 5.2.4 -->
+    <div class="rule-card">
+      <div class="rule-top">
+        <span class="rule-num">ПРАВИЛО 5.2.4</span>
+        <div class="rule-text">Применение кика к игроку без надлежащих оснований.</div>
+      </div>
+      <div class="rule-punish">
+        <div class="punish-label">Наказание</div>
+        <div class="punish-row">
+          <span class="punish-badge p1">1 раз</span>
+          <span class="punish-desc">Блокировка аккаунта на 3 дня (4320 минут)</span>
+        </div>
+        <div class="punish-row">
+          <span class="punish-badge p2">2 раз</span>
+          <span class="punish-desc">Блокировка аккаунта на 7 дней (10080 минут)</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- 5.2.5 -->
+    <div class="rule-card">
+      <div class="rule-top">
+        <span class="rule-num">ПРАВИЛО 5.2.5</span>
+        <div class="rule-text">Несвоевременная или запоздалая (позднее 6 часов с момента наказания) подача доказательств.</div>
+      </div>
+      <div class="rule-punish">
+        <div class="punish-label">Наказание</div>
+        <div class="punish-row">
+          <span class="punish-badge p1">1 раз</span>
+          <span class="punish-desc">Блокировка аккаунта на 7 дней (10080 минут)</span>
+        </div>
+        <div class="punish-row">
+          <span class="punish-badge p2">2 раз</span>
+          <span class="punish-desc">Блокировка аккаунта на 14 дней (20160 минут)</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+
+  <!-- ===== ABBREVIATIONS ===== -->
+  <div class="section">
+    <div class="section-header">
+      <span class="section-num">СПРАВКА</span>
+      <span class="section-icon">📖</span>
+      <span class="section-title">Расшифровка аббревиатур</span>
+    </div>
+
+    <div class="abbrev-grid">
+      <div class="abbrev-card">
+        <div class="abbrev-tag">ЧСП (chsp)</div>
+        <div class="abbrev-desc">Чёрный список проекта — полный запрет на участие в жизни сервера.</div>
+      </div>
+      <div class="abbrev-card">
+        <div class="abbrev-tag">ЧСПП (chspp)</div>
+        <div class="abbrev-desc">Чёрный список персонала — запрет на вступление в персонал, ютуб-программы, билдеры и т.д.</div>
+      </div>
+      <div class="abbrev-card">
+        <div class="abbrev-tag">ВЧСП (vchsp)</div>
+        <div class="abbrev-desc">Временный чёрный список — можно снять, принеся извинения или выполнив указание куратора/высшей администрации в отведённый срок.</div>
+      </div>
+      <div class="abbrev-card">
+        <div class="abbrev-tag">ВМ (vm)</div>
+        <div class="abbrev-desc">Вечный мут на весь вайп — запрещает писать в /tell и консоль; нарушение карается блокировкой по правилу 5.1 (обход мута).</div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- FOOTER -->
+  <div class="footer">
+    <div class="footer-logo">VELORION</div>
+    <div class="footer-sub">Куратор правил: <strong>StefAeroXP</strong></div>
+  </div>
+
+</div>
+</body>
+</html>
